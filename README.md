@@ -86,4 +86,4 @@ make clean           # Xóa hết data (RESET)
 
 - Docker Desktop hoặc Docker Engine
 - Docker Compose v2+
-- RAM: 16GB (recommended)
+- RAM: 16GB (recommended) 
