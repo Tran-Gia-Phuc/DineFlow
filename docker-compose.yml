@@ -1,0 +1,51 @@
+services:
+  db:
+    image: postgres:16
+    user: root
+    environment:
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=Phuc0312
+      - POSTGRES_DB=postgres
+    restart: always             # run as a service
+    volumes:
+        - ./postgresql:/var/lib/postgresql/data
+
+  odoo:
+    image: odoo:17
+    user: root
+    depends_on:
+      - db
+    ports:
+      - "31204:8069"
+      - "31205:8072"
+    tty: true
+    entrypoint: ["/entrypoint.sh"]
+    command: --
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=Phuc0312
+    volumes:
+      #- /etc/timezone:/etc/timezone:ro
+      #- /etc/localtime:/etc/localtime:ro
+      - ./entrypoint.sh:/entrypoint.sh
+      - ./addons:/mnt/extra-addons
+      - //e/odoo/Odoo17/DineFlow:/DineFlow   # ← đổi path trỏ đúng DineFlow
+    restart: always             # run as a service
+
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
+    container_name: jenkins
+    user: root
+    ports:
+      - "31206:8080"
+      - "31207:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - //var/run/docker.sock:/var/run/docker.sock
+      - //e/odoo/Odoo17/zoo17:/zoo17  ← thêm dòng này
+    restart: always
+volumes:
+  jenkins_home:
