@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_restaurant_table,restaurant.table,model_restaurant_table,,1,1,1,1
+access_restaurant_category,restaurant.category,model_restaurant_category,,1,1,1,1
+access_restaurant_menu_item,restaurant.menu.item,model_restaurant_menu_item,,1,1,1,1
+access_restaurant_booking,restaurant.booking,model_restaurant_booking,,1,1,1,1
+access_restaurant_leave,restaurant.leave.request,model_restaurant_leave_request,,1,1,1,1
+access_restaurant_order,restaurant.order,model_restaurant_order,,1,1,1,1
+access_restaurant_order_line,restaurant.order.line,model_restaurant_order_line,,1,1,1,1

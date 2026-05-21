@@ -1,0 +1,14 @@
+.o_field_widget[name="capacity"] {
+    width: 100px !important;
+    min-width: 150px !important;
+}
+
+.o_field_widget[name="status"] {
+    width: 150px !important;
+    min-width: 150px !important;
+}
+
+.o_field_widget[name="active"] {
+    width: 100px !important;
+    min-width: 100px !important;
+}

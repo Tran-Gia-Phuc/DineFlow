@@ -1,0 +1,170 @@
+# Project Tree Structure
+
+Generated on 5/20/2026
+
+```
+└── 📁 addons
+    ├── 📁 auto_database_backup
+    │   ├── 📁 controllers
+    │   │   ├── 📄 __init__.py
+    │   │   └── 📄 auto_database_backup.py
+    │   ├── 📁 data
+    │   │   ├── 📄 ir_cron_data.xml
+    │   │   └── 📄 mail_template_data.xml
+    │   ├── 📁 doc
+    │   │   └── 📝 RELEASE_NOTES.md
+    │   ├── 📁 models
+    │   │   ├── 📄 __init__.py
+    │   │   └── 📄 db_backup_configure.py
+    │   ├── 📁 security
+    │   │   └── 📄 ir.model.access.csv
+    │   ├── 📁 static
+    │   │   └── 📁 description
+    │   │       ├── 📁 assets
+    │   │       │   ├── 📁 icons
+    │   │       │   │   ├── 🖼️ check.png
+    │   │       │   │   ├── 🖼️ chevron.png
+    │   │       │   │   ├── 🖼️ cogs.png
+    │   │       │   │   ├── 🖼️ consultation.png
+    │   │       │   │   ├── 🖼️ down.svg
+    │   │       │   │   ├── 🖼️ ecom-black.png
+    │   │       │   │   ├── 🖼️ education-black.png
+    │   │       │   │   ├── 🖼️ faq.png
+    │   │       │   │   ├── 🖼️ feature.png
+    │   │       │   │   ├── 🖼️ hotel-black.png
+    │   │       │   │   ├── 🖼️ license.png
+    │   │       │   │   ├── 🖼️ lifebuoy.png
+    │   │       │   │   ├── 🖼️ manufacturing-black.png
+    │   │       │   │   ├── 🖼️ notes.png
+    │   │       │   │   ├── 🖼️ pos-black.png
+    │   │       │   │   ├── 🖼️ puzzle.png
+    │   │       │   │   ├── 🖼️ restaurant-black.png
+    │   │       │   │   ├── 🖼️ screenshot.png
+    │   │       │   │   ├── 🖼️ service-black.png
+    │   │       │   │   ├── 🖼️ skype.png
+    │   │       │   │   ├── 🖼️ star-1.svg
+    │   │       │   │   ├── 🖼️ star-2.svg
+    │   │       │   │   ├── 🖼️ support.png
+    │   │       │   │   ├── 🖼️ test-1 - Copy.png
+    │   │       │   │   ├── 🖼️ test-1.png
+    │   │       │   │   ├── 🖼️ test-2.png
+    │   │       │   │   ├── 🖼️ trading-black.png
+    │   │       │   │   ├── 🖼️ training.png
+    │   │       │   │   ├── 🖼️ update.png
+    │   │       │   │   ├── 🖼️ user.png
+    │   │       │   │   ├── 🖼️ video.png
+    │   │       │   │   ├── 🖼️ whatsapp.png
+    │   │       │   │   └── 🖼️ wrench.png
+    │   │       │   ├── 📁 modules
+    │   │       │   │   ├── 🖼️ 1.gif
+    │   │       │   │   ├── 🖼️ 2.jpg
+    │   │       │   │   ├── 🖼️ 3.png
+    │   │       │   │   ├── 🖼️ 4.png
+    │   │       │   │   ├── 🖼️ 5.png
+    │   │       │   │   └── 🖼️ 6.jpg
+    │   │       │   ├── 📁 screenshots
+    │   │       │   │   ├── 🖼️ 1.png
+    │   │       │   │   ├── 🖼️ 10.png
+    │   │       │   │   ├── 🖼️ 11.png
+    │   │       │   │   ├── 🖼️ 12.png
+    │   │       │   │   ├── 🖼️ 13.png
+    │   │       │   │   ├── 🖼️ 14.png
+    │   │       │   │   ├── 🖼️ 15.png
+    │   │       │   │   ├── 🖼️ 16.png
+    │   │       │   │   ├── 🖼️ 17.png
+    │   │       │   │   ├── 🖼️ 18.png
+    │   │       │   │   ├── 🖼️ 19.png
+    │   │       │   │   ├── 🖼️ 2.png
+    │   │       │   │   ├── 🖼️ 20.png
+    │   │       │   │   ├── 🖼️ 21.png
+    │   │       │   │   ├── 🖼️ 22.png
+    │   │       │   │   ├── 🖼️ 23.png
+    │   │       │   │   ├── 🖼️ 24.png
+    │   │       │   │   ├── 🖼️ 25.png
+    │   │       │   │   ├── 🖼️ 26.png
+    │   │       │   │   ├── 🖼️ 27.png
+    │   │       │   │   ├── 🖼️ 28.png
+    │   │       │   │   ├── 🖼️ 29.png
+    │   │       │   │   ├── 🖼️ 3.png
+    │   │       │   │   ├── 🖼️ 30.png
+    │   │       │   │   ├── 🖼️ 31.png
+    │   │       │   │   ├── 🖼️ 32.png
+    │   │       │   │   ├── 🖼️ 33.png
+    │   │       │   │   ├── 🖼️ 34.png
+    │   │       │   │   ├── 🖼️ 35.png
+    │   │       │   │   ├── 🖼️ 36.png
+    │   │       │   │   ├── 🖼️ 37.png
+    │   │       │   │   ├── 🖼️ 38.png
+    │   │       │   │   ├── 🖼️ 39.png
+    │   │       │   │   ├── 🖼️ 4.png
+    │   │       │   │   ├── 🖼️ 40.png
+    │   │       │   │   ├── 🖼️ 41.png
+    │   │       │   │   ├── 🖼️ 42.png
+    │   │       │   │   ├── 🖼️ 43.png
+    │   │       │   │   ├── 🖼️ 44.png
+    │   │       │   │   ├── 🖼️ 45.png
+    │   │       │   │   ├── 🖼️ 46.png
+    │   │       │   │   ├── 🖼️ 47.png
+    │   │       │   │   ├── 🖼️ 48.png
+    │   │       │   │   ├── 🖼️ 49.png
+    │   │       │   │   ├── 🖼️ 5.png
+    │   │       │   │   ├── 🖼️ 50.png
+    │   │       │   │   ├── 🖼️ 51.png
+    │   │       │   │   ├── 🖼️ 52.png
+    │   │       │   │   ├── 🖼️ 6.png
+    │   │       │   │   ├── 🖼️ 7.png
+    │   │       │   │   ├── 🖼️ 8.png
+    │   │       │   │   ├── 🖼️ 9.png
+    │   │       │   │   ├── 🖼️ hero.gif
+    │   │       │   │   ├── 🖼️ responsive.jpg
+    │   │       │   │   ├── 🖼️ responsive.png
+    │   │       │   │   └── 🖼️ xx.png
+    │   │       │   ├── 🖼️ cybro-icon.png
+    │   │       │   ├── 🖼️ cybro-odoo.png
+    │   │       │   ├── 🖼️ h2.png
+    │   │       │   └── 🖼️ y18.jpg
+    │   │       ├── 🖼️ banner.gif
+    │   │       ├── 🖼️ icon.png
+    │   │       └── 🌐 index.html
+    │   ├── 📁 views
+    │   │   └── 📄 db_backup_configure_views.xml
+    │   ├── 📁 wizard
+    │   │   ├── 📄 __init__.py
+    │   │   ├── 📄 dropbox_auth_code_views.xml
+    │   │   └── 📄 dropbox_auth_code.py
+    │   ├── 📄 __init__.py
+    │   ├── 📄 __manifest__.py
+    │   └── 📄 README.rst
+    ├── 📁 dineflow
+    │   ├── 📁 controllers
+    │   │   └── 📄 __intit__.py
+    │   ├── 📁 data
+    │   │   └── 📄 restaurant_data.xml
+    │   ├── 📁 model
+    │   │   ├── 📄 __init__.py
+    │   │   ├── 📄 hr_employee.py
+    │   │   ├── 📄 restaurant_booking.py
+    │   │   ├── 📄 restaurant_category.py
+    │   │   ├── 📄 restaurant_leave.py
+    │   │   ├── 📄 restaurant_menu_item.py
+    │   │   ├── 📄 restaurant_order.py
+    │   │   └── 📄 restaurant_table.py
+    │   ├── 📁 security
+    │   │   └── 📄 ir.model.access.csv
+    │   ├── 📁 static
+    │   │   ├── 📁 description
+    │   │   └── 📄 a
+    │   ├── 📁 views
+    │   │   ├── 📄 booking_views.xml
+    │   │   ├── 📄 employee_views.xml
+    │   │   ├── 📄 leave_views.xml
+    │   │   ├── 📄 menu_items.xml
+    │   │   ├── 📄 menu_views.xml
+    │   │   ├── 📄 order_views.xml
+    │   │   └── 📄 table_views.xml
+    │   ├── 📄 __init__.py
+    │   ├── 📄 __manifest__.py
+    │   └── 📜 a.js
+    ├── 📝 PROJECT_TREE.md
+    └── 📝 readme.md
+```

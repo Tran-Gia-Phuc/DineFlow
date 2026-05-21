@@ -6,7 +6,7 @@ services:
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=Phuc0312
       - POSTGRES_DB=postgres
-    restart: always             # run as a service
+    restart: "no"             # run as a service
     volumes:
         - ./postgresql:/var/lib/postgresql/data
 
@@ -31,7 +31,7 @@ services:
       - ./entrypoint.sh:/entrypoint.sh
       - ./addons:/mnt/extra-addons
       - //e/odoo/Odoo17/DineFlow:/DineFlow   # ← đổi path trỏ đúng DineFlow
-    restart: always             # run as a service
+    restart: "no"             # run as a service
 
   jenkins:
     build:
@@ -46,6 +46,6 @@ services:
       - jenkins_home:/var/jenkins_home
       - //var/run/docker.sock:/var/run/docker.sock
       - //e/odoo/Odoo17/zoo17:/zoo17  ← thêm dòng này
-    restart: always
+    restart: "no"
 volumes:
   jenkins_home:

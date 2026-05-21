@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_restaurant_booking_list" model="ir.ui.view">
+        <field name="name">restaurant.booking.list</field>
+        <field name="model">restaurant.booking</field>
+        <field name="arch" type="xml">
+            <tree string="Đặt bàn">
+                <field name="name" string="Mã đặt bàn" />
+                <field name="customer_name" string="Tên khách" />
+                <field name="phone" string="SĐT" optional="show" />
+                <field name="table_id" string="Bàn" />
+                <field name="date" string="Thời gian" />
+                <field name="guest_count" string="Số khách" optional="hide" />
+                <field name="status" widget="badge"
+                    decoration-info="status == 'pending'"
+                    decoration-success="status == 'confirmed'"
+                    decoration-danger="status == 'cancelled'"
+                    decoration-muted="status == 'done'" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_restaurant_booking_form" model="ir.ui.view">
+        <field name="name">restaurant.booking.form</field>
+        <field name="model">restaurant.booking</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" type="object"
+                        string="Xác nhận" class="btn-primary"
+                        invisible="status != 'pending'" />
+                    <button name="action_cancel" type="object"
+                        string="Huỷ" class="btn-danger"
+                        invisible="status not in ('pending', 'confirmed')" />
+                    <field name="status" widget="statusbar"
+                        statusbar_visible="pending,confirmed,done" />
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Thông tin khách">
+                            <field name="name" readonly="1" />
+                            <field name="customer_name" />
+                            <field name="phone" />
+                            <field name="email" />
+                        </group>
+                        <group string="Chi tiết đặt bàn">
+                            <field name="table_id" />
+                            <field name="date" />
+                            <field name="guest_count" />
+                            <field name="deposit_paid" />
+                            <field name="confirmed_by" />
+                        </group>
+                    </group>
+                    <field name="note" placeholder="Ghi chú..." />
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_restaurant_booking" model="ir.actions.act_window">
+        <field name="name">Đặt bàn</field>
+        <field name="res_model">restaurant.booking</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_restaurant_booking"
+        name="Danh sách đặt bàn"
+        parent="menu_dineflow_booking"
+        action="action_restaurant_booking"
+        sequence="10" />
+
+</odoo>
