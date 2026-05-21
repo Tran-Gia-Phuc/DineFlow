@@ -15,6 +15,242 @@
             <field name="prefix">ORD</field>
             <field name="padding">5</field>
         </record>
+        <!-- ==================== BÀNG ==================== -->
+        <record id="table_01" model="restaurant.table">
+            <field name="name">Bàn 01</field>
+            <field name="capacity">4</field>
+            <field name="floor">A</field>
+            <field name="status">available</field>
+        </record>
+        <record id="table_02" model="restaurant.table">
+            <field name="name">Bàn 02</field>
+            <field name="capacity">4</field>
+            <field name="floor">A</field>
+            <field name="status">available</field>
+        </record>
+        <record id="table_03" model="restaurant.table">
+            <field name="name">Bàn 03</field>
+            <field name="capacity">6</field>
+            <field name="floor">A</field>
+            <field name="status">occupied</field>
+        </record>
+        <record id="table_04" model="restaurant.table">
+            <field name="name">Bàn 04</field>
+            <field name="capacity">6</field>
+            <field name="floor">A</field>
+            <field name="status">reserved</field>
+        </record>
+        <record id="table_05" model="restaurant.table">
+            <field name="name">Bàn 05</field>
+            <field name="capacity">2</field>
+            <field name="floor">B</field>
+            <field name="status">available</field>
+        </record>
+        <record id="table_06" model="restaurant.table">
+            <field name="name">Bàn 06</field>
+            <field name="capacity">2</field>
+            <field name="floor">B</field>
+            <field name="status">available</field>
+        </record>
+        <record id="table_07" model="restaurant.table">
+            <field name="name">Bàn 07</field>
+            <field name="capacity">8</field>
+            <field name="floor">B</field>
+            <field name="status">available</field>
+        </record>
+        <record id="table_08" model="restaurant.table">
+            <field name="name">Bàn 08</field>
+            <field name="capacity">8</field>
+            <field name="floor">B</field>
+            <field name="status">occupied</field>
+        </record>
+        <record id="table_09" model="restaurant.table">
+            <field name="name">Bàn 09</field>
+            <field name="capacity">4</field>
+            <field name="floor">Tầng 2</field>
+            <field name="status">available</field>
+        </record>
+        <record id="table_10" model="restaurant.table">
+            <field name="name">Bàn 10</field>
+            <field name="capacity">4</field>
+            <field name="floor">Tầng 2</field>
+            <field name="status">reserved</field>
+        </record>
+
+        <!-- ==================== DANH MỤC ==================== -->
+        <record id="category_pizza" model="restaurant.category">
+            <field name="name">Pizza</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="category_pizza_mini" model="restaurant.category">
+            <field name="name">Pizza Mini</field>
+            <field name="sequence">2</field>
+            <field name="parent_id" ref="category_pizza" />
+        </record>
+        <record id="category_other" model="restaurant.category">
+            <field name="name">Other</field>
+            <field name="sequence">3</field>
+        </record>
+        <record id="category_drink" model="restaurant.category">
+            <field name="name">Drink</field>
+            <field name="sequence">4</field>
+        </record>
+
+        <!-- ==================== MÓN ĂN ==================== -->
+        <!-- Pizza -->
+        <record id="item_pizza_margherita" model="restaurant.menu.item">
+            <field name="name">Pizza Margherita</field>
+            <field name="category_id" ref="category_pizza" />
+            <field name="price">120000</field>
+            <field name="type">food</field>
+            <field name="available">True</field>
+            <field name="preparation_time">20</field>
+            <field name="description">Pizza truyền thống với cà chua và phô mai</field>
+        </record>
+        <record id="item_pizza_pepperoni" model="restaurant.menu.item">
+            <field name="name">Pizza Pepperoni</field>
+            <field name="category_id" ref="category_pizza" />
+            <field name="price">139000</field>
+            <field name="type">food</field>
+            <field name="available">True</field>
+            <field name="preparation_time">20</field>
+            <field name="description">Pizza xúc xích pepperoni đặc trưng</field>
+        </record>
+        <record id="item_pizza_hawaii" model="restaurant.menu.item">
+            <field name="name">Pizza Hawaii</field>
+            <field name="category_id" ref="category_pizza" />
+            <field name="price">129000</field>
+            <field name="type">food</field>
+            <field name="available">True</field>
+            <field name="preparation_time">20</field>
+            <field name="description">Pizza thơm dứa và giăm bông</field>
+        </record>
+
+        <!-- Pizza Mini -->
+        <record id="item_pizza_mini_margherita" model="restaurant.menu.item">
+            <field name="name">Pizza Mini Margherita</field>
+            <field name="category_id" ref="category_pizza_mini" />
+            <field name="price">69000</field>
+            <field name="type">food</field>
+            <field name="available">True</field>
+            <field name="preparation_time">15</field>
+            <field name="description">Phiên bản mini của Pizza Margherita</field>
+        </record>
+        <record id="item_pizza_mini_pepperoni" model="restaurant.menu.item">
+            <field name="name">Pizza Mini Pepperoni</field>
+            <field name="category_id" ref="category_pizza_mini" />
+            <field name="price">79000</field>
+            <field name="type">food</field>
+            <field name="available">True</field>
+            <field name="preparation_time">15</field>
+            <field name="description">Phiên bản mini của Pizza Pepperoni</field>
+        </record>
+
+        <!-- Other -->
+        <record id="item_khoai_tay" model="restaurant.menu.item">
+            <field name="name">Khoai tây chiên</field>
+            <field name="category_id" ref="category_other" />
+            <field name="price">45000</field>
+            <field name="type">food</field>
+            <field name="available">True</field>
+            <field name="preparation_time">10</field>
+            <field name="description">Khoai tây chiên giòn phục vụ kèm tương ớt</field>
+        </record>
+        <record id="item_salad" model="restaurant.menu.item">
+            <field name="name">Salad rau củ</field>
+            <field name="category_id" ref="category_other" />
+            <field name="price">55000</field>
+            <field name="type">food</field>
+            <field name="available">True</field>
+            <field name="preparation_time">8</field>
+            <field name="description">Salad tươi với sốt mè rang</field>
+        </record>
+
+        <!-- Drink -->
+        <record id="item_pepsi" model="restaurant.menu.item">
+            <field name="name">Pepsi</field>
+            <field name="category_id" ref="category_drink" />
+            <field name="price">25000</field>
+            <field name="type">drink</field>
+            <field name="available">True</field>
+            <field name="preparation_time">2</field>
+            <field name="description">Pepsi lon 330ml</field>
+        </record>
+        <record id="item_coca" model="restaurant.menu.item">
+            <field name="name">Coca-Cola</field>
+            <field name="category_id" ref="category_drink" />
+            <field name="price">25000</field>
+            <field name="type">drink</field>
+            <field name="available">True</field>
+            <field name="preparation_time">2</field>
+            <field name="description">Coca-Cola lon 330ml</field>
+        </record>
+
+        <!-- ==================== NHÂN SỰ ==================== -->
+        <record id="employee_leader" model="hr.employee">
+            <field name="name">Nguyễn Văn Leader</field>
+            <field name="restaurant_role">manager</field>
+            <field name="employee_code">EMP001</field>
+            <field name="shift">morning</field>
+            <field name="job_title">Quản lý nhà hàng</field>
+        </record>
+
+        <record id="employee_cook_fried" model="hr.employee">
+            <field name="name">Trần Văn Chiên</field>
+            <field name="restaurant_role">chef</field>
+            <field name="employee_code">EMP002</field>
+            <field name="shift">morning</field>
+            <field name="job_title">Đầu bếp - Chuyên chiên</field>
+        </record>
+
+        <record id="employee_cook_pizza" model="hr.employee">
+            <field name="name">Lê Văn Pizza</field>
+            <field name="restaurant_role">chef</field>
+            <field name="employee_code">EMP003</field>
+            <field name="shift">afternoon</field>
+            <field name="job_title">Đầu bếp - Chuyên pizza</field>
+        </record>
+
+        <record id="employee_cashier_1" model="hr.employee">
+            <field name="name">Phạm Thị Thu</field>
+            <field name="restaurant_role">cashier</field>
+            <field name="employee_code">EMP004</field>
+            <field name="shift">morning</field>
+            <field name="job_title">Thu ngân</field>
+        </record>
+
+        <record id="employee_cashier_2" model="hr.employee">
+            <field name="name">Hoàng Thị Ngân</field>
+            <field name="restaurant_role">cashier</field>
+            <field name="employee_code">EMP005</field>
+            <field name="shift">evening</field>
+            <field name="job_title">Thu ngân</field>
+        </record>
+
+        <record id="employee_service_1" model="hr.employee">
+            <field name="name">Võ Thị Phục</field>
+            <field name="restaurant_role">waiter</field>
+            <field name="employee_code">EMP006</field>
+            <field name="shift">morning</field>
+            <field name="job_title">Phục vụ bàn</field>
+        </record>
+
+        <record id="employee_service_2" model="hr.employee">
+            <field name="name">Đặng Văn Bàn</field>
+            <field name="restaurant_role">waiter</field>
+            <field name="employee_code">EMP007</field>
+            <field name="shift">afternoon</field>
+            <field name="job_title">Phục vụ bàn</field>
+        </record>
+
+        <record id="employee_service_english" model="hr.employee">
+            <field name="name">Nguyễn Thị English</field>
+            <field name="restaurant_role">waiter</field>
+            <field name="employee_code">EMP008</field>
+            <field name="shift">evening</field>
+            <field name="job_title">Phục vụ bàn - Tiếng Anh</field>
+            <field name="notes">Có khả năng giao tiếp tiếng Anh</field>
+        </record>
 
     </data>
 </odoo>
