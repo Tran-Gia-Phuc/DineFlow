@@ -3,30 +3,31 @@
     <menuitem id="menu_dineflow_root"
         name="DineFlow"
         web_icon="dineflow,static/description/icon.png"
-        sequence="10"/>
+        sequence="10" />
 
     <menuitem id="menu_dineflow_table"
         name="Quản lý bàn"
         parent="menu_dineflow_root"
-        sequence="10"/>
+        sequence="10" />
 
     <menuitem id="menu_dineflow_menu"
         name="Thực đơn"
         parent="menu_dineflow_root"
-        sequence="20"/>
+        sequence="20" />
 
     <menuitem id="menu_dineflow_booking"
         name="Đặt bàn"
         parent="menu_dineflow_root"
-        sequence="30"/>
+        sequence="30" />
 
     <menuitem id="menu_dineflow_order"
         name="Order"
         parent="menu_dineflow_root"
-        sequence="40"/>
+        sequence="40" />
 
     <menuitem id="menu_dineflow_hr"
         name="Nhân sự"
         parent="menu_dineflow_root"
-        sequence="50"/>
+        sequence="50" />
+
 </odoo>

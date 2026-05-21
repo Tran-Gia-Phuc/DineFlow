@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- LIST VIEW -->
+    <record id="view_revenue_report_tree" model="ir.ui.view">
+        <field name="name">restaurant.revenue.report.tree</field>
+        <field name="model">restaurant.revenue.report</field>
+        <field name="arch" type="xml">
+            <tree string="Doanh thu" create="0" edit="0" delete="0">
+                <field name="date"/>
+                <field name="order_id"/>
+                <field name="table_id"/>
+                <field name="payment_method"/>
+                <field name="total_amount" sum="Tổng doanh thu"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- GRAPH VIEW -->
+    <record id="view_revenue_report_graph" model="ir.ui.view">
+        <field name="name">restaurant.revenue.report.graph</field>
+        <field name="model">restaurant.revenue.report</field>
+        <field name="arch" type="xml">
+            <graph string="Biểu đồ doanh thu" type="bar">
+                <field name="date" interval="month" type="row"/>
+                <field name="total_amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- PIVOT VIEW -->
+    <record id="view_revenue_report_pivot" model="ir.ui.view">
+        <field name="name">restaurant.revenue.report.pivot</field>
+        <field name="model">restaurant.revenue.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Phân tích doanh thu">
+                <field name="date" interval="month" type="row"/>
+                <field name="table_id" type="col"/>
+                <field name="total_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW -->
+    <record id="view_revenue_report_search" model="ir.ui.view">
+        <field name="name">restaurant.revenue.report.search</field>
+        <field name="model">restaurant.revenue.report</field>
+        <field name="arch" type="xml">
+            <search string="Tìm kiếm doanh thu">
+                <field name="table_id" string="Bàn"/>
+                <field name="payment_method" string="Phương thức"/>
+                <filter name="filter_today" string="Hôm nay"
+                    domain="[('date','&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),
+                              ('date','&lt;=', datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]"/>
+                <filter name="filter_this_month" string="Tháng này"
+                    domain="[('date','&gt;=', (context_today()).strftime('%Y-%m-01'))]"/>
+                <filter name="filter_this_year" string="Năm này"
+                    domain="[('date','&gt;=', (context_today()).strftime('%Y-01-01'))]"/>
+                <separator/>
+                <filter name="group_by_date_day" string="Theo ngày"
+                    context="{'group_by': 'date:day'}"/>
+                <filter name="group_by_date_month" string="Theo tháng"
+                    context="{'group_by': 'date:month'}"/>
+                <filter name="group_by_date_year" string="Theo năm"
+                    context="{'group_by': 'date:year'}"/>
+                <filter name="group_by_table" string="Theo bàn"
+                    context="{'group_by': 'table_id'}"/>
+                <filter name="group_by_payment" string="Theo phương thức"
+                    context="{'group_by': 'payment_method'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_revenue_report" model="ir.actions.act_window">
+        <field name="name">Doanh thu</field>
+        <field name="res_model">restaurant.revenue.report</field>
+        <field name="view_mode">list,graph,pivot</field>
+        <field name="groups_id" eval="[(6, 0, [ref('dineflow.group_dineflow_manager')])]"/>
+    </record>
+        <!-- Menu Thống kê — chỉ Manager -->
+    <menuitem id="menu_dineflow_report"
+        name="Thống kê"
+        parent="menu_dineflow_root"
+        sequence="90"
+        groups="dineflow.group_dineflow_manager" />
+
+    <menuitem id="menu_dineflow_revenue_report"
+        name="Doanh thu"
+        parent="menu_dineflow_report"
+        action="action_revenue_report"
+        sequence="10"
+        groups="dineflow.group_dineflow_manager" />
+
+</odoo>

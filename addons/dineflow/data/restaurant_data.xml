@@ -2,6 +2,7 @@
 <odoo>
     <data noupdate="1">
 
+        <!-- ==================== SEQUENCE ==================== -->
         <record id="seq_restaurant_booking" model="ir.sequence">
             <field name="name">Restaurant Booking</field>
             <field name="code">restaurant.booking</field>
@@ -15,66 +16,83 @@
             <field name="prefix">ORD</field>
             <field name="padding">5</field>
         </record>
-        <!-- ==================== BÀNG ==================== -->
-        <record id="table_01" model="restaurant.table">
-            <field name="name">Bàn 01</field>
-            <field name="capacity">4</field>
-            <field name="floor">A</field>
-            <field name="status">available</field>
+
+        <!-- ==================== NHÂN VIÊN ==================== -->
+        <record id="employee_leader1" model="hr.employee">
+            <field name="name">leader1</field>
+            <field name="work_email">leader1@gmail.com</field>
+            <field name="work_phone">0938456402</field>
+            <field name="restaurant_role">manager</field>
+            <field name="employee_code">EMP001</field>
+            <field name="shift">morning</field>
+            <field name="job_title">Quản lý nhà hàng</field>
+            <field name="pin_code">100001</field>
         </record>
-        <record id="table_02" model="restaurant.table">
-            <field name="name">Bàn 02</field>
-            <field name="capacity">4</field>
-            <field name="floor">A</field>
-            <field name="status">available</field>
+
+        <record id="employee_cook1" model="hr.employee">
+            <field name="name">cook1</field>
+            <field name="work_email">cook1@gmail.com</field>
+            <field name="work_phone">0938456402</field>
+            <field name="restaurant_role">chef</field>
+            <field name="employee_code">EMP002</field>
+            <field name="shift">morning</field>
+            <field name="job_title">Đầu bếp</field>
+            <field name="pin_code">100002</field>
         </record>
-        <record id="table_03" model="restaurant.table">
-            <field name="name">Bàn 03</field>
-            <field name="capacity">6</field>
-            <field name="floor">A</field>
-            <field name="status">occupied</field>
+
+        <record id="employee_cook2" model="hr.employee">
+            <field name="name">cook2</field>
+            <field name="work_email">cook2@gmail.com</field>
+            <field name="work_phone">0938456402</field>
+            <field name="restaurant_role">chef</field>
+            <field name="employee_code">EMP003</field>
+            <field name="shift">afternoon</field>
+            <field name="job_title">Đầu bếp</field>
+            <field name="pin_code">100003</field>
         </record>
-        <record id="table_04" model="restaurant.table">
-            <field name="name">Bàn 04</field>
-            <field name="capacity">6</field>
-            <field name="floor">A</field>
-            <field name="status">reserved</field>
+
+        <record id="employee_cashier1" model="hr.employee">
+            <field name="name">cashier1</field>
+            <field name="work_email">cashier1@gmail.com</field>
+            <field name="work_phone">0938456402</field>
+            <field name="restaurant_role">cashier</field>
+            <field name="employee_code">EMP004</field>
+            <field name="shift">morning</field>
+            <field name="job_title">Thu ngân</field>
+            <field name="pin_code">100004</field>
         </record>
-        <record id="table_05" model="restaurant.table">
-            <field name="name">Bàn 05</field>
-            <field name="capacity">2</field>
-            <field name="floor">B</field>
-            <field name="status">available</field>
+
+        <record id="employee_cashier2" model="hr.employee">
+            <field name="name">cashier2</field>
+            <field name="work_email">cashier2@gmail.com</field>
+            <field name="work_phone">0938456402</field>
+            <field name="restaurant_role">cashier</field>
+            <field name="employee_code">EMP005</field>
+            <field name="shift">evening</field>
+            <field name="job_title">Thu ngân</field>
+            <field name="pin_code">100005</field>
         </record>
-        <record id="table_06" model="restaurant.table">
-            <field name="name">Bàn 06</field>
-            <field name="capacity">2</field>
-            <field name="floor">B</field>
-            <field name="status">available</field>
+
+        <record id="employee_service1" model="hr.employee">
+            <field name="name">service1</field>
+            <field name="work_email">service1@gmail.com</field>
+            <field name="work_phone">0938456402</field>
+            <field name="restaurant_role">waiter</field>
+            <field name="employee_code">EMP006</field>
+            <field name="shift">morning</field>
+            <field name="job_title">Phục vụ bàn</field>
+            <field name="pin_code">100006</field>
         </record>
-        <record id="table_07" model="restaurant.table">
-            <field name="name">Bàn 07</field>
-            <field name="capacity">8</field>
-            <field name="floor">B</field>
-            <field name="status">available</field>
-        </record>
-        <record id="table_08" model="restaurant.table">
-            <field name="name">Bàn 08</field>
-            <field name="capacity">8</field>
-            <field name="floor">B</field>
-            <field name="status">occupied</field>
-        </record>
-        <record id="table_09" model="restaurant.table">
-            <field name="name">Bàn 09</field>
-            <field name="capacity">4</field>
-            <field name="floor">Tầng 2</field>
-            <field name="status">available</field>
-        </record>
-        <record id="table_10" model="restaurant.table">
-            <field name="name">Bàn 10</field>
-            <field name="capacity">4</field>
-            <field name="floor">Tầng 2</field>
-            <field name="status">reserved</field>
+
+        <record id="employee_service2" model="hr.employee">
+            <field name="name">service2</field>
+            <field name="work_email">service2@gmail.com</field>
+            <field name="work_phone">0938456402</field>
+            <field name="restaurant_role">waiter</field>
+            <field name="employee_code">EMP007</field>
+            <field name="shift">afternoon</field>
+            <field name="job_title">Phục vụ bàn</field>
+            <field name="pin_code">100007</field>
         </record>
 
         <!-- ==================== DANH MỤC ==================== -->
@@ -88,16 +106,15 @@
             <field name="parent_id" ref="category_pizza" />
         </record>
         <record id="category_other" model="restaurant.category">
-            <field name="name">Other</field>
+            <field name="name">Món phụ</field>
             <field name="sequence">3</field>
         </record>
         <record id="category_drink" model="restaurant.category">
-            <field name="name">Drink</field>
+            <field name="name">Đồ uống</field>
             <field name="sequence">4</field>
         </record>
 
         <!-- ==================== MÓN ĂN ==================== -->
-        <!-- Pizza -->
         <record id="item_pizza_margherita" model="restaurant.menu.item">
             <field name="name">Pizza Margherita</field>
             <field name="category_id" ref="category_pizza" />
@@ -105,7 +122,7 @@
             <field name="type">food</field>
             <field name="available">True</field>
             <field name="preparation_time">20</field>
-            <field name="description">Pizza truyền thống với cà chua và phô mai</field>
+            <field name="description">Pizza truyền thống cà chua phô mai</field>
         </record>
         <record id="item_pizza_pepperoni" model="restaurant.menu.item">
             <field name="name">Pizza Pepperoni</field>
@@ -114,7 +131,7 @@
             <field name="type">food</field>
             <field name="available">True</field>
             <field name="preparation_time">20</field>
-            <field name="description">Pizza xúc xích pepperoni đặc trưng</field>
+            <field name="description">Pizza xúc xích pepperoni</field>
         </record>
         <record id="item_pizza_hawaii" model="restaurant.menu.item">
             <field name="name">Pizza Hawaii</field>
@@ -125,8 +142,6 @@
             <field name="preparation_time">20</field>
             <field name="description">Pizza thơm dứa và giăm bông</field>
         </record>
-
-        <!-- Pizza Mini -->
         <record id="item_pizza_mini_margherita" model="restaurant.menu.item">
             <field name="name">Pizza Mini Margherita</field>
             <field name="category_id" ref="category_pizza_mini" />
@@ -134,7 +149,7 @@
             <field name="type">food</field>
             <field name="available">True</field>
             <field name="preparation_time">15</field>
-            <field name="description">Phiên bản mini của Pizza Margherita</field>
+            <field name="description">Phiên bản mini Pizza Margherita</field>
         </record>
         <record id="item_pizza_mini_pepperoni" model="restaurant.menu.item">
             <field name="name">Pizza Mini Pepperoni</field>
@@ -143,10 +158,8 @@
             <field name="type">food</field>
             <field name="available">True</field>
             <field name="preparation_time">15</field>
-            <field name="description">Phiên bản mini của Pizza Pepperoni</field>
+            <field name="description">Phiên bản mini Pizza Pepperoni</field>
         </record>
-
-        <!-- Other -->
         <record id="item_khoai_tay" model="restaurant.menu.item">
             <field name="name">Khoai tây chiên</field>
             <field name="category_id" ref="category_other" />
@@ -154,7 +167,7 @@
             <field name="type">food</field>
             <field name="available">True</field>
             <field name="preparation_time">10</field>
-            <field name="description">Khoai tây chiên giòn phục vụ kèm tương ớt</field>
+            <field name="description">Khoai tây chiên giòn kèm tương ớt</field>
         </record>
         <record id="item_salad" model="restaurant.menu.item">
             <field name="name">Salad rau củ</field>
@@ -163,10 +176,8 @@
             <field name="type">food</field>
             <field name="available">True</field>
             <field name="preparation_time">8</field>
-            <field name="description">Salad tươi với sốt mè rang</field>
+            <field name="description">Salad tươi sốt mè rang</field>
         </record>
-
-        <!-- Drink -->
         <record id="item_pepsi" model="restaurant.menu.item">
             <field name="name">Pepsi</field>
             <field name="category_id" ref="category_drink" />
@@ -185,71 +196,369 @@
             <field name="preparation_time">2</field>
             <field name="description">Coca-Cola lon 330ml</field>
         </record>
-
-        <!-- ==================== NHÂN SỰ ==================== -->
-        <record id="employee_leader" model="hr.employee">
-            <field name="name">Nguyễn Văn Leader</field>
-            <field name="restaurant_role">manager</field>
-            <field name="employee_code">EMP001</field>
-            <field name="shift">morning</field>
-            <field name="job_title">Quản lý nhà hàng</field>
+        <record id="item_nuoc_ep_cam" model="restaurant.menu.item">
+            <field name="name">Nước ép cam</field>
+            <field name="category_id" ref="category_drink" />
+            <field name="price">35000</field>
+            <field name="type">drink</field>
+            <field name="available">True</field>
+            <field name="preparation_time">5</field>
+            <field name="description">Nước ép cam tươi 300ml</field>
         </record>
 
-        <record id="employee_cook_fried" model="hr.employee">
-            <field name="name">Trần Văn Chiên</field>
-            <field name="restaurant_role">chef</field>
-            <field name="employee_code">EMP002</field>
-            <field name="shift">morning</field>
-            <field name="job_title">Đầu bếp - Chuyên chiên</field>
+        <!-- ==================== BÀN ==================== -->
+        <!-- Bàn 01-02: available (không có booking/order nào) -->
+        <record id="table_01" model="restaurant.table">
+            <field name="name">Bàn 01</field>
+            <field name="capacity">4</field>
+            <field name="min_capacity">1</field>
+            <field name="floor">A</field>
+            <field name="status">available</field>
+        </record>
+        <record id="table_02" model="restaurant.table">
+            <field name="name">Bàn 02</field>
+            <field name="capacity">4</field>
+            <field name="min_capacity">1</field>
+            <field name="floor">A</field>
+            <field name="status">available</field>
+        </record>
+        <!-- Bàn 03: occupied (có order open) -->
+        <record id="table_03" model="restaurant.table">
+            <field name="name">Bàn 03</field>
+            <field name="capacity">6</field>
+            <field name="min_capacity">2</field>
+            <field name="floor">A</field>
+            <field name="status">occupied</field>
+        </record>
+        <!-- Bàn 04: occupied (có order open) -->
+        <record id="table_04" model="restaurant.table">
+            <field name="name">Bàn 04</field>
+            <field name="capacity">6</field>
+            <field name="min_capacity">2</field>
+            <field name="floor">A</field>
+            <field name="status">occupied</field>
+        </record>
+        <!-- Bàn 05: reserved (có booking confirmed tương lai) -->
+        <record id="table_05" model="restaurant.table">
+            <field name="name">Bàn 05</field>
+            <field name="capacity">2</field>
+            <field name="min_capacity">1</field>
+            <field name="floor">B</field>
+            <field name="status">reserved</field>
+        </record>
+        <!-- Bàn 06: reserved (có booking confirmed tương lai) -->
+        <record id="table_06" model="restaurant.table">
+            <field name="name">Bàn 06</field>
+            <field name="capacity">2</field>
+            <field name="min_capacity">1</field>
+            <field name="floor">B</field>
+            <field name="status">reserved</field>
+        </record>
+        <!-- Bàn 07: available -->
+        <record id="table_07" model="restaurant.table">
+            <field name="name">Bàn 07</field>
+            <field name="capacity">8</field>
+            <field name="min_capacity">3</field>
+            <field name="floor">B</field>
+            <field name="status">available</field>
+        </record>
+        <!-- Bàn 08: occupied (có order open) -->
+        <record id="table_08" model="restaurant.table">
+            <field name="name">Bàn 08</field>
+            <field name="capacity">8</field>
+            <field name="min_capacity">3</field>
+            <field name="floor">B</field>
+            <field name="status">occupied</field>
+        </record>
+        <!-- Bàn 09: available -->
+        <record id="table_09" model="restaurant.table">
+            <field name="name">Bàn 09</field>
+            <field name="capacity">4</field>
+            <field name="min_capacity">1</field>
+            <field name="floor">Tầng 2</field>
+            <field name="status">available</field>
+        </record>
+        <!-- Bàn 10: reserved -->
+        <record id="table_10" model="restaurant.table">
+            <field name="name">Bàn 10</field>
+            <field name="capacity">4</field>
+            <field name="min_capacity">1</field>
+            <field name="floor">Tầng 2</field>
+            <field name="status">reserved</field>
         </record>
 
-        <record id="employee_cook_pizza" model="hr.employee">
-            <field name="name">Lê Văn Pizza</field>
-            <field name="restaurant_role">chef</field>
-            <field name="employee_code">EMP003</field>
-            <field name="shift">afternoon</field>
-            <field name="job_title">Đầu bếp - Chuyên pizza</field>
+        <!-- ==================== ĐẶT BÀN ==================== -->
+        <!-- Booking đã hoàn thành (done) - bàn 03, 04 đang có order -->
+        <record id="booking_01" model="restaurant.booking">
+            <field name="name">BK00001</field>
+            <field name="customer_name">Nguyễn Văn An</field>
+            <field name="phone">0901234561</field>
+            <field name="email">an@gmail.com</field>
+            <field name="table_id" ref="table_03" />
+            <field name="date_start" eval="datetime(2026, 5, 21, 11, 0, 0)" />
+            <field name="date_end" eval="datetime(2026, 5, 21, 13, 0, 0)" />
+            <field name="guest_count">4</field>
+            <field name="status">confirmed</field>
+            <field name="deposit_paid">True</field>
+            <field name="confirmed_by" ref="employee_leader1" />
+            <field name="note">Bàn sát cửa sổ</field>
         </record>
 
-        <record id="employee_cashier_1" model="hr.employee">
-            <field name="name">Phạm Thị Thu</field>
-            <field name="restaurant_role">cashier</field>
-            <field name="employee_code">EMP004</field>
-            <field name="shift">morning</field>
-            <field name="job_title">Thu ngân</field>
+        <record id="booking_02" model="restaurant.booking">
+            <field name="name">BK00002</field>
+            <field name="customer_name">Trần Thị Bình</field>
+            <field name="phone">0901234562</field>
+            <field name="email">binh@gmail.com</field>
+            <field name="table_id" ref="table_04" />
+            <field name="date_start" eval="datetime(2026, 5, 21, 12, 0, 0)" />
+            <field name="date_end" eval="datetime(2026, 5, 21, 14, 0, 0)" />
+            <field name="guest_count">5</field>
+            <field name="status">confirmed</field>
+            <field name="deposit_paid">True</field>
+            <field name="confirmed_by" ref="employee_leader1" />
         </record>
 
-        <record id="employee_cashier_2" model="hr.employee">
-            <field name="name">Hoàng Thị Ngân</field>
-            <field name="restaurant_role">cashier</field>
-            <field name="employee_code">EMP005</field>
-            <field name="shift">evening</field>
-            <field name="job_title">Thu ngân</field>
+        <record id="booking_03" model="restaurant.booking">
+            <field name="name">BK00003</field>
+            <field name="customer_name">Lê Văn Cường</field>
+            <field name="phone">0901234563</field>
+            <field name="email">cuong@gmail.com</field>
+            <field name="table_id" ref="table_08" />
+            <field name="date_start" eval="datetime(2026, 5, 21, 11, 30, 0)" />
+            <field name="date_end" eval="datetime(2026, 5, 21, 13, 30, 0)" />
+            <field name="guest_count">6</field>
+            <field name="status">confirmed</field>
+            <field name="deposit_paid">False</field>
+            <field name="confirmed_by" ref="employee_leader1" />
         </record>
 
-        <record id="employee_service_1" model="hr.employee">
-            <field name="name">Võ Thị Phục</field>
-            <field name="restaurant_role">waiter</field>
-            <field name="employee_code">EMP006</field>
-            <field name="shift">morning</field>
-            <field name="job_title">Phục vụ bàn</field>
+        <!-- Booking tương lai → bàn reserved -->
+        <record id="booking_04" model="restaurant.booking">
+            <field name="name">BK00004</field>
+            <field name="customer_name">Phạm Thị Dung</field>
+            <field name="phone">0901234564</field>
+            <field name="email">dung@gmail.com</field>
+            <field name="table_id" ref="table_05" />
+            <field name="date_start" eval="datetime(2026, 5, 21, 18, 0, 0)" />
+            <field name="date_end" eval="datetime(2026, 5, 21, 20, 0, 0)" />
+            <field name="guest_count">2</field>
+            <field name="status">confirmed</field>
+            <field name="deposit_paid">True</field>
+            <field name="confirmed_by" ref="employee_leader1" />
+            <field name="note">Kỷ niệm ngày cưới</field>
         </record>
 
-        <record id="employee_service_2" model="hr.employee">
-            <field name="name">Đặng Văn Bàn</field>
-            <field name="restaurant_role">waiter</field>
-            <field name="employee_code">EMP007</field>
-            <field name="shift">afternoon</field>
-            <field name="job_title">Phục vụ bàn</field>
+        <record id="booking_05" model="restaurant.booking">
+            <field name="name">BK00005</field>
+            <field name="customer_name">Hoàng Văn Em</field>
+            <field name="phone">0901234565</field>
+            <field name="email">em@gmail.com</field>
+            <field name="table_id" ref="table_06" />
+            <field name="date_start" eval="datetime(2026, 5, 21, 19, 0, 0)" />
+            <field name="date_end" eval="datetime(2026, 5, 21, 21, 0, 0)" />
+            <field name="guest_count">2</field>
+            <field name="status">pending</field>
+            <field name="deposit_paid">False</field>
         </record>
 
-        <record id="employee_service_english" model="hr.employee">
-            <field name="name">Nguyễn Thị English</field>
-            <field name="restaurant_role">waiter</field>
-            <field name="employee_code">EMP008</field>
-            <field name="shift">evening</field>
-            <field name="job_title">Phục vụ bàn - Tiếng Anh</field>
-            <field name="notes">Có khả năng giao tiếp tiếng Anh</field>
+        <record id="booking_06" model="restaurant.booking">
+            <field name="name">BK00006</field>
+            <field name="customer_name">Vũ Thị Fương</field>
+            <field name="phone">0901234566</field>
+            <field name="email">fuong@gmail.com</field>
+            <field name="table_id" ref="table_10" />
+            <field name="date_start" eval="datetime(2026, 5, 22, 12, 0, 0)" />
+            <field name="date_end" eval="datetime(2026, 5, 22, 14, 0, 0)" />
+            <field name="guest_count">3</field>
+            <field name="status">confirmed</field>
+            <field name="deposit_paid">True</field>
+            <field name="confirmed_by" ref="employee_leader1" />
+        </record>
+
+        <!-- Booking đã huỷ -->
+        <record id="booking_07" model="restaurant.booking">
+            <field name="name">BK00007</field>
+            <field name="customer_name">Đinh Văn Giang</field>
+            <field name="phone">0901234567</field>
+            <field name="table_id" ref="table_01" />
+            <field name="date_start" eval="datetime(2026, 5, 22, 18, 0, 0)" />
+            <field name="date_end" eval="datetime(2026, 5, 22, 20, 0, 0)" />
+            <field name="guest_count">2</field>
+            <field name="status">cancelled</field>
+            <field name="deposit_paid">False</field>
+            <field name="note">Khách báo huỷ trước 1 ngày</field>
+        </record>
+
+        <!-- ==================== ORDER ==================== -->
+        <!-- Order open → bàn 03 occupied, liên kết booking_01 -->
+        <record id="order_01" model="restaurant.order">
+            <field name="name">ORD00001</field>
+            <field name="table_id" ref="table_03" />
+            <field name="booking_id" ref="booking_01" />
+            <field name="waiter_id" ref="employee_service1" />
+            <field name="status">open</field>
+            <field name="note">Khách yêu cầu ít cay</field>
+        </record>
+        <record id="order_line_01_1" model="restaurant.order.line">
+            <field name="order_id" ref="order_01" />
+            <field name="menu_item_id" ref="item_pizza_margherita" />
+            <field name="quantity">1</field>
+            <field name="unit_price">120000</field>
+        </record>
+        <record id="order_line_01_2" model="restaurant.order.line">
+            <field name="order_id" ref="order_01" />
+            <field name="menu_item_id" ref="item_pepsi" />
+            <field name="quantity">4</field>
+            <field name="unit_price">25000</field>
+        </record>
+        <record id="order_line_01_3" model="restaurant.order.line">
+            <field name="order_id" ref="order_01" />
+            <field name="menu_item_id" ref="item_khoai_tay" />
+            <field name="quantity">2</field>
+            <field name="unit_price">45000</field>
+        </record>
+
+        <!-- Order open → bàn 04 occupied, liên kết booking_02 -->
+        <record id="order_02" model="restaurant.order">
+            <field name="name">ORD00002</field>
+            <field name="table_id" ref="table_04" />
+            <field name="booking_id" ref="booking_02" />
+            <field name="waiter_id" ref="employee_service2" />
+            <field name="status">open</field>
+        </record>
+        <record id="order_line_02_1" model="restaurant.order.line">
+            <field name="order_id" ref="order_02" />
+            <field name="menu_item_id" ref="item_pizza_pepperoni" />
+            <field name="quantity">2</field>
+            <field name="unit_price">139000</field>
+        </record>
+        <record id="order_line_02_2" model="restaurant.order.line">
+            <field name="order_id" ref="order_02" />
+            <field name="menu_item_id" ref="item_salad" />
+            <field name="quantity">2</field>
+            <field name="unit_price">55000</field>
+        </record>
+        <record id="order_line_02_3" model="restaurant.order.line">
+            <field name="order_id" ref="order_02" />
+            <field name="menu_item_id" ref="item_nuoc_ep_cam" />
+            <field name="quantity">3</field>
+            <field name="unit_price">35000</field>
+        </record>
+
+        <!-- Order open → bàn 08 occupied, liên kết booking_03 -->
+        <record id="order_03" model="restaurant.order">
+            <field name="name">ORD00003</field>
+            <field name="table_id" ref="table_08" />
+            <field name="booking_id" ref="booking_03" />
+            <field name="waiter_id" ref="employee_service1" />
+            <field name="status">open</field>
+        </record>
+        <record id="order_line_03_1" model="restaurant.order.line">
+            <field name="order_id" ref="order_03" />
+            <field name="menu_item_id" ref="item_pizza_hawaii" />
+            <field name="quantity">2</field>
+            <field name="unit_price">129000</field>
+        </record>
+        <record id="order_line_03_2" model="restaurant.order.line">
+            <field name="order_id" ref="order_03" />
+            <field name="menu_item_id" ref="item_pizza_mini_pepperoni" />
+            <field name="quantity">3</field>
+            <field name="unit_price">79000</field>
+        </record>
+        <record id="order_line_03_3" model="restaurant.order.line">
+            <field name="order_id" ref="order_03" />
+            <field name="menu_item_id" ref="item_coca" />
+            <field name="quantity">6</field>
+            <field name="unit_price">25000</field>
+        </record>
+
+        <!-- Order đã thanh toán (lịch sử) -->
+        <record id="order_04" model="restaurant.order">
+            <field name="name">ORD00004</field>
+            <field name="table_id" ref="table_01" />
+            <field name="waiter_id" ref="employee_service2" />
+            <field name="status">paid</field>
+            <field name="payment_method">cash</field>
+        </record>
+        <record id="order_line_04_1" model="restaurant.order.line">
+            <field name="order_id" ref="order_04" />
+            <field name="menu_item_id" ref="item_pizza_mini_margherita" />
+            <field name="quantity">2</field>
+            <field name="unit_price">69000</field>
+        </record>
+        <record id="order_line_04_2" model="restaurant.order.line">
+            <field name="order_id" ref="order_04" />
+            <field name="menu_item_id" ref="item_pepsi" />
+            <field name="quantity">2</field>
+            <field name="unit_price">25000</field>
+        </record>
+
+        <!-- Order đã huỷ (lịch sử) -->
+        <record id="order_05" model="restaurant.order">
+            <field name="name">ORD00005</field>
+            <field name="table_id" ref="table_02" />
+            <field name="waiter_id" ref="employee_service1" />
+            <field name="status">cancelled</field>
+            <field name="note">Khách rời đi trước khi order</field>
+        </record>
+        <record id="order_line_05_1" model="restaurant.order.line">
+            <field name="order_id" ref="order_05" />
+            <field name="menu_item_id" ref="item_coca" />
+            <field name="quantity">1</field>
+            <field name="unit_price">25000</field>
+        </record>
+
+        <!-- ==================== XIN NGHỈ PHÉP ==================== -->
+        <!-- confirm -->
+        <record id="leave_01" model="restaurant.leave.request">
+            <field name="employee_id" ref="employee_service1" />
+            <field name="date_from">2026-05-28</field>
+            <field name="date_to">2026-05-29</field>
+            <field name="leave_type">annual</field>
+            <field name="reason">Nghỉ phép du lịch gia đình</field>
+            <field name="status">confirm</field>
+        </record>
+
+        <!-- Đã gửi chờ duyệt -->
+        <record id="leave_02" model="restaurant.leave.request">
+            <field name="employee_id" ref="employee_cook1" />
+            <field name="date_from">2026-05-31</field>
+            <field name="date_to">2026-06-01</field>
+            <field name="leave_type">sick</field>
+            <field name="reason">Khám sức khoẻ định kỳ</field>
+            <field name="status">confirmed</field>
+        </record>
+
+        <!-- Đã duyệt -->
+        <record id="leave_03" model="restaurant.leave.request">
+            <field name="employee_id" ref="employee_cashier1" />
+            <field name="date_from">2026-06-04</field>
+            <field name="date_to">2026-06-05</field>
+            <field name="leave_type">personal</field>
+            <field name="reason">Việc cá nhân</field>
+            <field name="status">approved</field>
+            <field name="manager_id" ref="employee_leader1" />
+            <field name="approved_date">2026-05-21</field>
+        </record>
+
+        <!-- Đã gửi chờ duyệt -->
+        <record id="leave_04" model="restaurant.leave.request">
+            <field name="employee_id" ref="employee_service2" />
+            <field name="date_from">2026-06-10</field>
+            <field name="date_to">2026-06-12</field>
+            <field name="leave_type">annual</field>
+            <field name="reason">Nghỉ hè</field>
+            <field name="status">confirmed</field>
+        </record>
+
+        <!-- confirm -->
+        <record id="leave_05" model="restaurant.leave.request">
+            <field name="employee_id" ref="employee_cook2" />
+            <field name="date_from">2026-06-20</field>
+            <field name="date_to">2026-06-20</field>
+            <field name="leave_type">personal</field>
+            <field name="reason">Dự đám cưới</field>
+            <field name="status">confirm</field>
         </record>
 
     </data>

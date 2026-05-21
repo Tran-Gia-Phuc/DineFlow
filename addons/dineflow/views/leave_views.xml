@@ -43,7 +43,11 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="employee_id" />
+                            <field name="employee_id"
+                                domain="[('user_id', '=', uid)]"
+                                groups="dineflow.group_dineflow_waiter,dineflow.group_dineflow_cashier,dineflow.group_dineflow_chef" />
+                            <field name="employee_id"
+                                groups="dineflow.group_dineflow_manager" />
                             <field name="leave_type" />
                             <field name="created_by_ai" />
                         </group>

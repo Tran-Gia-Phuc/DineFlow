@@ -28,4 +28,31 @@
         <field name="category_id" ref="module_category_dineflow"/>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
     </record>
+
+    <!-- Nhân viên chỉ thấy đơn nghỉ của mình -->
+    <record id="rule_leave_employee_own" model="ir.rule">
+        <field name="name">Nhân viên chỉ xem đơn nghỉ của mình</field>
+        <field name="model_id" ref="model_restaurant_leave_request"/>
+        <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('dineflow.group_dineflow_waiter')),
+                                    (4, ref('dineflow.group_dineflow_cashier')),
+                                    (4, ref('dineflow.group_dineflow_chef'))]"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">0</field>
+        <field name="perm_unlink">0</field>
+    </record>
+
+    <!-- Manager thấy tất cả đơn nghỉ -->
+    <record id="rule_leave_manager_all" model="ir.rule">
+        <field name="name">Quản lý xem tất cả đơn nghỉ</field>
+        <field name="model_id" ref="model_restaurant_leave_request"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('dineflow.group_dineflow_manager'))]"/>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">1</field>
+    </record>
+
 </odoo>
