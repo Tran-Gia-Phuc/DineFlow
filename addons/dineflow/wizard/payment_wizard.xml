@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_payment_wizard_form" model="ir.ui.view">
+        <field name="name">restaurant.payment.wizard.form</field>
+        <field name="model">restaurant.payment.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Xác nhận thanh toán">
+                <group>
+                    <field name="order_id" readonly="1"/>
+                    <field name="total_amount" readonly="1"/>
+                    <field name="payment_method"/>
+                    <field name="amount_received"/>
+                    <field name="change_amount" readonly="1"/>
+                </group>
+                <footer>
+                    <button name="action_confirm_payment" string="Xác nhận thanh toán"
+                        type="object" class="btn-primary"/>
+                    <button string="Huỷ" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_payment_wizard" model="ir.actions.act_window">
+        <field name="name">Thanh toán</field>
+        <field name="res_model">restaurant.payment.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
