@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_dineflow_root"
+        name="DineFlow"
+        sequence="10"/>
+
+    <menuitem id="menu_dineflow_table"
+        name="Quản lý bàn"
+        parent="menu_dineflow_root"
+        sequence="10"/>
+
+    <menuitem id="menu_dineflow_menu"
+        name="Thực đơn"
+        parent="menu_dineflow_root"
+        sequence="20"/>
+
+    <menuitem id="menu_dineflow_booking"
+        name="Đặt bàn"
+        parent="menu_dineflow_root"
+        sequence="30"/>
+
+    <menuitem id="menu_dineflow_order"
+        name="Order"
+        parent="menu_dineflow_root"
+        sequence="40"/>
+
+    <menuitem id="menu_dineflow_hr"
+        name="Nhân sự"
+        parent="menu_dineflow_root"
+        sequence="50"/>
+</odoo>
