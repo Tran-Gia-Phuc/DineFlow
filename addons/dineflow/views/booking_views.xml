@@ -10,7 +10,8 @@
                 <field name="customer_name" string="Tên khách" />
                 <field name="phone" string="SĐT" optional="show" />
                 <field name="table_id" string="Bàn" />
-                <field name="date" string="Thời gian" />
+                <field name="date_start" string="Giờ đến" />
+                <field name="date_end" string="Giờ kết thúc" optional="hide" />
                 <field name="guest_count" string="Số khách" optional="hide" />
                 <field name="status" widget="badge"
                     decoration-info="status == 'pending'"
@@ -29,10 +30,12 @@
                 <header>
                     <button name="action_confirm" type="object"
                         string="Xác nhận" class="btn-primary"
-                        invisible="status != 'pending'" />
+                        invisible="status != 'pending'"
+                        groups="dineflow.group_dineflow_manager,dineflow.group_dineflow_cashier" />
                     <button name="action_cancel" type="object"
                         string="Huỷ" class="btn-danger"
-                        invisible="status not in ('pending', 'confirmed')" />
+                        invisible="status not in ('pending', 'confirmed')"
+                        groups="dineflow.group_dineflow_manager,dineflow.group_dineflow_cashier" />
                     <field name="status" widget="statusbar"
                         statusbar_visible="pending,confirmed,done" />
                 </header>
@@ -46,7 +49,8 @@
                         </group>
                         <group string="Chi tiết đặt bàn">
                             <field name="table_id" />
-                            <field name="date" />
+                            <field name="date_start" />
+                            <field name="date_end" />
                             <field name="guest_count" />
                             <field name="deposit_paid" />
                             <field name="confirmed_by" />

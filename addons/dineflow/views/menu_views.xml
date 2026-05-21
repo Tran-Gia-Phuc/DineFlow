@@ -1,31 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_dineflow_root"
-        name="DineFlow"
-        sequence="10"/>
 
-    <menuitem id="menu_dineflow_table"
-        name="Quản lý bàn"
-        parent="menu_dineflow_root"
-        sequence="10"/>
+    <!-- ══════════════════════════════════════════
+         CATEGORY — hiển thị cả record inactive
+         (active_test=False trong context action)
+    ══════════════════════════════════════════ -->
+    <record id="view_restaurant_category_tree" model="ir.ui.view">
+        <field name="name">restaurant.category.tree</field>
+        <field name="model">restaurant.category</field>
+        <field name="arch" type="xml">
+            <tree string="Danh mục">
+                <field name="sequence" widget="handle" />
+                <field name="name" string="Tên danh mục" />
+                <field name="parent_id" string="Danh mục cha" optional="hide" />
+                <field name="active" string="Hoạt động" widget="boolean_toggle" />
+            </tree>
+        </field>
+    </record>
 
-    <menuitem id="menu_dineflow_menu"
-        name="Thực đơn"
-        parent="menu_dineflow_root"
-        sequence="20"/>
+    <record id="view_restaurant_category_form" model="ir.ui.view">
+        <field name="name">restaurant.category.form</field>
+        <field name="model">restaurant.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <!-- Banner cảnh báo khi danh mục inactive — Odoo 17: dùng invisible trực tiếp -->
+                <div class="alert alert-warning" role="alert"
+                     invisible="active == True">
+                    <i class="fa fa-warning" /> Danh mục này đang <strong>tạm ngưng</strong>.
+                    Tất cả món trong danh mục sẽ không thể order cho đến khi được bật lại.
+                </div>
+                <sheet>
+                    <field name="image" widget="image" class="float-end" />
+                    <group>
+                        <field name="name" />
+                        <field name="parent_id" />
+                        <field name="sequence" />
+                        <field name="active" />
+                    </group>
+                    <notebook>
+                        <page string="Các món">
+                            <!-- active_test=False để hiện cả món đã tắt -->
+                            <field name="menu_item_ids"
+                                   context="{'active_test': False}"
+                                   readonly="1">
+                                <tree>
+                                    <field name="name" />
+                                    <field name="price" />
+                                    <field name="available" widget="boolean_toggle" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
-    <menuitem id="menu_dineflow_booking"
-        name="Đặt bàn"
-        parent="menu_dineflow_root"
-        sequence="30"/>
+    <!-- Action: active_test=False để list hiện cả danh mục inactive -->
+    <record id="action_restaurant_category" model="ir.actions.act_window">
+        <field name="name">Danh mục món</field>
+        <field name="res_model">restaurant.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'active_test': False}</field>
+    </record>
 
-    <menuitem id="menu_dineflow_order"
-        name="Order"
-        parent="menu_dineflow_root"
-        sequence="40"/>
+    <!-- ══════════════════════════════════════════
+         MENU ITEM
+    ══════════════════════════════════════════ -->
+    <record id="view_restaurant_menu_item_tree" model="ir.ui.view">
+        <field name="name">restaurant.menu.item.tree</field>
+        <field name="model">restaurant.menu.item</field>
+        <field name="arch" type="xml">
+            <tree string="Thực đơn" decoration-muted="available == False">
+                <field name="name" string="Tên món" />
+                <field name="category_id" string="Danh mục" />
+                <field name="type" widget="badge" />
+                <field name="price" string="Giá" />
+                <field name="preparation_time" string="Thời gian (phút)" optional="hide" />
+                <field name="available" string="Còn phục vụ" widget="boolean_toggle" />
+            </tree>
+        </field>
+    </record>
 
-    <menuitem id="menu_dineflow_hr"
-        name="Nhân sự"
-        parent="menu_dineflow_root"
-        sequence="50"/>
+    <record id="view_restaurant_menu_item_form" model="ir.ui.view">
+        <field name="name">restaurant.menu.item.form</field>
+        <field name="model">restaurant.menu.item</field>
+        <field name="arch" type="xml">
+            <form>
+                <!-- Banner khi món không available — Odoo 17: dùng invisible trực tiếp -->
+                <div class="alert alert-warning" role="alert"
+                     invisible="available == True">
+                    <i class="fa fa-warning" /> Món này đang <strong>tạm ngưng phục vụ</strong>.
+                </div>
+                <sheet>
+                    <field name="image" widget="image" class="float-end" />
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="category_id" />
+                            <field name="type" widget="radio" />
+                        </group>
+                        <group>
+                            <field name="price" />
+                            <field name="preparation_time" />
+                            <field name="available" />
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Mô tả món ăn..." />
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_restaurant_menu_item" model="ir.actions.act_window">
+        <field name="name">Thực đơn</field>
+        <field name="res_model">restaurant.menu.item</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_restaurant_category"
+        name="Danh mục"
+        parent="menu_dineflow_menu"
+        action="action_restaurant_category"
+        sequence="10" />
+
+    <menuitem id="menu_restaurant_menu_item"
+        name="Các món"
+        parent="menu_dineflow_menu"
+        action="action_restaurant_menu_item"
+        sequence="20" />
+
 </odoo>

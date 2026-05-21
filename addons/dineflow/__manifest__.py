@@ -10,15 +10,16 @@
     "category": "Restaurant",  # https://github.com/odoo/odoo/blob/17.0/odoo/addons/base/data/ir_module_category_data.xml
     "depends": ["base", "mail", "hr"],
     "data": [
+        "security/groups.xml",  
         "security/ir.model.access.csv",
         "data/restaurant_data.xml",
+        "views/menu_items.xml",
         "views/menu_views.xml",
         "views/table_views.xml",
         "views/booking_views.xml",
         "views/leave_views.xml",
         "views/order_views.xml",
         "views/employee_views.xml",
-        "views/menu_items.xml",
     ],
     "assets": {
         "web.assets_backend": [

@@ -1,99 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <menuitem id="menu_dineflow_root"
+        name="DineFlow"
+        web_icon="dineflow,static/description/icon.png"
+        sequence="10"/>
 
-    <record id="view_restaurant_category_tree" model="ir.ui.view">
-        <field name="name">restaurant.category.tree</field>
-        <field name="model">restaurant.category</field>
-        <field name="arch" type="xml">
-            <tree string="Danh mục">
-                <field name="sequence" widget="handle" />
-                <field name="name" string="Tên danh mục" width="10"/>
-                <field name="parent_id" string="Danh mục cha" optional="hide" />
-                <field name="active" string="Hoạt động"  width="20" optional="hide" />
-            </tree>
-        </field>
-    </record>
+    <menuitem id="menu_dineflow_table"
+        name="Quản lý bàn"
+        parent="menu_dineflow_root"
+        sequence="10"/>
 
-    <record id="view_restaurant_category_form" model="ir.ui.view">
-        <field name="name">restaurant.category.form</field>
-        <field name="model">restaurant.category</field>
-        <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <field name="image" widget="image" class="float-end" />
-                    <group>
-                        <field name="name" />
-                        <field name="parent_id" />
-                        <field name="sequence" />
-                        <field name="active" />
-                    </group>
-                </sheet>
-            </form>
-        </field>
-    </record>
+    <menuitem id="menu_dineflow_menu"
+        name="Thực đơn"
+        parent="menu_dineflow_root"
+        sequence="20"/>
 
-    <record id="action_restaurant_category" model="ir.actions.act_window">
-        <field name="name">Danh mục món</field>
-        <field name="res_model">restaurant.category</field>
-        <field name="view_mode">tree,form</field>
-    </record>
+    <menuitem id="menu_dineflow_booking"
+        name="Đặt bàn"
+        parent="menu_dineflow_root"
+        sequence="30"/>
 
-    <record id="view_restaurant_menu_item_tree" model="ir.ui.view">
-        <field name="name">restaurant.menu.item.tree</field>
-        <field name="model">restaurant.menu.item</field>
-        <field name="arch" type="xml">
-            <tree string="Thực đơn">
-                <field name="name" string="Tên món" />
-                <field name="category_id" string="Danh mục" />
-                <field name="type" widget="badge" />
-                <field name="price" string="Giá" />
-                <field name="preparation_time" string="Thời gian (phút)" optional="hide" />
-                <field name="available" string="Còn phục vụ" widget="boolean_toggle" />
-            </tree>
-        </field>
-    </record>
+    <menuitem id="menu_dineflow_order"
+        name="Order"
+        parent="menu_dineflow_root"
+        sequence="40"/>
 
-    <record id="view_restaurant_menu_item_form" model="ir.ui.view">
-        <field name="name">restaurant.menu.item.form</field>
-        <field name="model">restaurant.menu.item</field>
-        <field name="arch" type="xml">
-            <form>
-                <sheet>
-                    <field name="image" widget="image" class="float-end" />
-                    <group>
-                        <group>
-                            <field name="name" />
-                            <field name="category_id" />
-                            <field name="type" widget="radio" />
-                        </group>
-                        <group>
-                            <field name="price" />
-                            <field name="preparation_time" />
-                            <field name="available" />
-                        </group>
-                    </group>
-                    <field name="description" placeholder="Mô tả món ăn..." />
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <record id="action_restaurant_menu_item" model="ir.actions.act_window">
-        <field name="name">Thực đơn</field>
-        <field name="res_model">restaurant.menu.item</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-    <menuitem id="menu_restaurant_category"
-        name="Danh mục"
-        parent="menu_dineflow_menu"
-        action="action_restaurant_category"
-        sequence="10" />
-
-    <menuitem id="menu_restaurant_menu_item"
-        name="Các món"
-        parent="menu_dineflow_menu"
-        action="action_restaurant_menu_item"
-        sequence="20" />
-
+    <menuitem id="menu_dineflow_hr"
+        name="Nhân sự"
+        parent="menu_dineflow_root"
+        sequence="50"/>
 </odoo>
