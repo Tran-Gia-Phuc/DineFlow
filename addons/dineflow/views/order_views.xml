@@ -25,13 +25,15 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_paid" string="Thanh toán" type="object"
-                        class="btn-primary"
-                        invisible="status != 'open'" />
-                    <button name="action_cancel" string="Huỷ order" type="object"
-                        class="btn-danger"
+                    <button name="%(dineflow.action_payment_wizard)d" type="action"
+                        string="Thanh toán" class="btn-primary"
                         invisible="status != 'open'"
-                        groups="dineflow.group_dineflow_manager,dineflow.group_dineflow_cashier" />
+                        context="{'default_order_id': active_id}" />
+                    <button name="%(dineflow.action_cancel_order_wizard)d" type="action"
+                        string="Huỷ order" class="btn-danger"
+                        invisible="status != 'open'"
+                        groups="dineflow.group_dineflow_manager,dineflow.group_dineflow_cashier"
+                        context="{'default_order_id': active_id}" />
                     <field name="status" widget="statusbar"
                         statusbar_visible="open,paid" />
                 </header>

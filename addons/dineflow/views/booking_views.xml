@@ -32,10 +32,15 @@
                         string="Xác nhận" class="btn-primary"
                         invisible="status != 'pending'"
                         groups="dineflow.group_dineflow_manager,dineflow.group_dineflow_cashier" />
-                    <button name="action_cancel" type="object"
+                    <!-- <button name="action_cancel" type="object"
                         string="Huỷ" class="btn-danger"
                         invisible="status not in ('pending', 'confirmed')"
-                        groups="dineflow.group_dineflow_manager,dineflow.group_dineflow_cashier" />
+                        groups="dineflow.group_dineflow_manager,dineflow.group_dineflow_cashier" /> -->
+                    <button name="%(dineflow.action_cancel_booking_wizard)d" type="action"
+                        string="Huỷ" class="btn-danger"
+                        invisible="status not in ('pending', 'confirmed')"
+                        groups="dineflow.group_dineflow_manager,dineflow.group_dineflow_cashier"
+                        context="{'default_booking_id': active_id}" />
                     <field name="status" widget="statusbar"
                         statusbar_visible="pending,confirmed,done" />
                 </header>

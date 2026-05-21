@@ -17,6 +17,10 @@
                     decoration-success="status == 'approved'"
                     decoration-danger="status == 'refused'" />
                 <field name="created_by_ai" widget="boolean_toggle" />
+                <button name="%(dineflow.action_approve_leave_wizard)d" type="action"
+                    string="Duyệt hàng loạt" class="btn-primary"
+                    groups="dineflow.group_dineflow_manager"
+                    context="{'default_leave_ids': active_ids}" />
             </tree>
         </field>
     </record>

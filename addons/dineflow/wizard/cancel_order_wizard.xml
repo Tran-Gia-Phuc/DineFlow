@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cancel_order_wizard_form" model="ir.ui.view">
+        <field name="name">restaurant.cancel.order.wizard.form</field>
+        <field name="model">restaurant.cancel.order.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Xác nhận huỷ order">
+                <group>
+                    <field name="order_id" readonly="1"/>
+                    <field name="table_id" readonly="1"/>
+                    <field name="total_amount" readonly="1"/>
+                    <field name="cancel_reason" placeholder="Nhập lý do huỷ order..."/>
+                </group>
+                <footer>
+                    <button name="action_confirm_cancel" string="Xác nhận huỷ"
+                        type="object" class="btn-danger"/>
+                    <button string="Quay lại" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cancel_order_wizard" model="ir.actions.act_window">
+        <field name="name">Huỷ order</field>
+        <field name="res_model">restaurant.cancel.order.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
