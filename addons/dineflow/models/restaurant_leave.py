@@ -31,7 +31,7 @@ class RestaurantLeaveRequest(models.Model):
         ('confirmed', 'Đã gửi'),
         ('approved', 'Đã duyệt'),
         ('refused', 'Từ chối'),
-    ], string='Trạng thái', default='draft')
+    ], string='Trạng thái', default='confirmed')
     manager_id = fields.Many2one('hr.employee', string='Người duyệt')
     approved_date = fields.Date(string='Ngày duyệt')
     created_by_ai = fields.Boolean(string='Tạo bởi AI', default=False)
@@ -117,16 +117,29 @@ class RestaurantLeaveRequest(models.Model):
                 raise ValidationError('Chỉ đơn ở trạng thái Nháp mới có thể gửi duyệt.')
             rec.status = 'confirmed'
 
+    def _check_is_manager(self):
+        """Kiểm tra user hiện tại có phải manager không."""
+        employee = self.env['hr.employee'].search([
+            ('user_id', '=', self.env.uid),
+            ('restaurant_role', '=', 'manager'),
+        ], limit=1)
+        if not employee:
+            raise ValidationError('Chỉ quản lý mới có quyền duyệt hoặc từ chối đơn nghỉ phép.')
+        return employee
+
     def action_approve(self):
+        manager = self._check_is_manager()
         for rec in self:
             if rec.status != 'confirmed':
                 raise ValidationError('Chỉ đơn đã gửi mới có thể duyệt.')
             rec.write({
                 'status': 'approved',
+                'manager_id': manager.id,
                 'approved_date': fields.Date.today(),
             })
 
     def action_refuse(self):
+        self._check_is_manager()
         for rec in self:
             if rec.status not in ('confirmed', 'approved'):
                 raise ValidationError('Chỉ có thể từ chối đơn đã gửi hoặc đã duyệt.')

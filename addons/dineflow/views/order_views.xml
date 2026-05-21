@@ -28,12 +28,13 @@
                     <button name="%(dineflow.action_payment_wizard)d" type="action"
                         string="Thanh toán" class="btn-primary"
                         invisible="status != 'open'"
-                        context="{'default_order_id': active_id}" />
+                        context="{'default_order_id': active_id}"
+                        groups="dineflow.group_dineflow_manager,dineflow.group_dineflow_cashier" />
                     <button name="%(dineflow.action_cancel_order_wizard)d" type="action"
                         string="Huỷ order" class="btn-danger"
                         invisible="status != 'open'"
-                        groups="dineflow.group_dineflow_manager,dineflow.group_dineflow_cashier"
-                        context="{'default_order_id': active_id}" />
+                        context="{'default_order_id': active_id}"
+                        groups="dineflow.group_dineflow_manager,dineflow.group_dineflow_cashier" />
                     <field name="status" widget="statusbar"
                         statusbar_visible="open,paid" />
                 </header>

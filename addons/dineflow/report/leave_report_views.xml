@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- LIST VIEW -->
+    <record id="view_leave_report_tree" model="ir.ui.view">
+        <field name="name">restaurant.leave.report.tree</field>
+        <field name="model">restaurant.leave.report</field>
+        <field name="arch" type="xml">
+            <tree string="Lịch nghỉ phép" create="0" edit="0" delete="0">
+                <field name="employee_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="duration"/>
+                <field name="leave_type"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- GRAPH VIEW -->
+    <record id="view_leave_report_graph" model="ir.ui.view">
+        <field name="name">restaurant.leave.report.graph</field>
+        <field name="model">restaurant.leave.report</field>
+        <field name="arch" type="xml">
+            <graph string="Biểu đồ nghỉ phép" type="bar">
+                <field name="employee_id" type="row"/>
+                <field name="duration" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- PIVOT VIEW -->
+    <record id="view_leave_report_pivot" model="ir.ui.view">
+        <field name="name">restaurant.leave.report.pivot</field>
+        <field name="model">restaurant.leave.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Phân tích nghỉ phép">
+                <field name="employee_id" type="row"/>
+                <field name="status" type="col"/>
+                <field name="duration" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- SEARCH VIEW -->
+    <record id="view_leave_report_search" model="ir.ui.view">
+        <field name="name">restaurant.leave.report.search</field>
+        <field name="model">restaurant.leave.report</field>
+        <field name="arch" type="xml">
+            <search string="Tìm kiếm lịch nghỉ">
+                <field name="employee_id" string="Nhân viên"/>
+                <field name="leave_type" string="Loại nghỉ"/>
+                <separator/>
+                <filter name="filter_draft" string="Nháp"
+                    domain="[('status','=','draft')]"/>
+                <filter name="filter_confirmed" string="Đã gửi"
+                    domain="[('status','=','confirmed')]"/>
+                <filter name="filter_approved" string="Đã duyệt"
+                    domain="[('status','=','approved')]"/>
+                <filter name="filter_refused" string="Đã hủy"
+                    domain="[('status','=','refused')]"/>
+                <separator/>
+                <filter name="group_by_employee" string="Theo nhân viên"
+                    context="{'group_by': 'employee_id'}"/>
+                <filter name="group_by_status" string="Theo trạng thái"
+                    context="{'group_by': 'status'}"/>
+                <filter name="group_by_type" string="Theo loại nghỉ"
+                    context="{'group_by': 'leave_type'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACTION -->
+    <record id="action_leave_report" model="ir.actions.act_window">
+        <field name="name">Lịch nghỉ phép</field>
+        <field name="res_model">restaurant.leave.report</field>
+        <field name="view_mode">list,graph,pivot</field>
+        <field name="groups_id" eval="[(6, 0, [ref('dineflow.group_dineflow_manager')])]"/>
+    </record>
+
+      <!-- Menu Thống kê — chỉ Manager -->
+    <menuitem id="menu_dineflow_leave_report"
+        name="Lịch nghỉ phép"
+        parent="menu_dineflow_report"
+        action="action_leave_report"
+        sequence="20"
+        groups="dineflow.group_dineflow_manager" />
+</odoo>
