@@ -20,21 +20,25 @@
         "wizard/approve_leave_wizard.xml",
         "wizard/cancel_booking_wizard.xml",
         "wizard/cancel_order_wizard.xml",
+        "report/restaurant_order_report.xml",
         "views/booking_views.xml",
         "views/leave_views.xml",
         "views/order_views.xml",
         "views/employee_views.xml",
         "report/revenue_report_views.xml",
-        "report/leave_report_views.xml",  
+        "report/leave_report_views.xml",
     ],
     "assets": {
         "web.assets_backend": [
-            "dineflow/static/src/css/dineflow.css"
-            #     "zoo/static/src/components/counter/*",  # <-- khai báo widget sắp hiện thực
-            #     "zoo/static/src/components/mytable/*",
-            #     "zoo/static/src/components/myheader/*",
+            "dineflow/static/src/components/ai_chat/ai_chat.js",
+            "dineflow/static/src/components/ai_chat/ai_chat.xml",
+            "dineflow/static/src/components/ai_chat/ai_chat.css",
+            "dineflow/static/src/css/dineflow.css",
         ]
     },
+    "test": [
+        "tests/test_dineflow.py",
+    ],
     "demo": [],
     "css": [],
     # 'qweb': [

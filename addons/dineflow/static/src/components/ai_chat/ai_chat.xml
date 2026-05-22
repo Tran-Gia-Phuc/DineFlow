@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="dineflow.AIChatComponent">
+        <div class="dineflow-chat">
+            <div class="dineflow-chat-header">
+                🤖 DineFlow AI Assistant
+            </div>
+
+            <div class="dineflow-chat-messages">
+                <t t-foreach="state.messages" t-as="msg" t-key="msg_index">
+                    <div t-attf-class="dineflow-msg dineflow-msg-{{ msg.from }}">
+                        <div class="dineflow-avatar">
+                            <t t-if="msg.from === 'bot'">🤖</t>
+                            <t t-else="">👤</t>
+                        </div>
+                        <div class="dineflow-msg-bubble">
+                            <t t-esc="msg.text"/>
+                        </div>
+                    </div>
+                </t>
+
+                <t t-if="state.loading">
+                    <div class="dineflow-msg dineflow-msg-bot">
+                        <div class="dineflow-avatar">🤖</div>
+                        <div class="dineflow-msg-bubble dineflow-typing">
+                            <span/><span/><span/>
+                        </div>
+                    </div>
+                </t>
+
+                <div t-ref="messageEnd"/>
+            </div>
+
+            <div class="dineflow-chat-input">
+                <textarea
+                    t-model="state.input"
+                    t-on-keydown="onKeyDown"
+                    placeholder="Nhập tin nhắn... (Enter để gửi)"
+                    rows="2"
+                />
+                <button t-on-click="sendMessage" t-att-disabled="state.loading">
+                    Gửi ➤
+                </button>
+            </div>
+        </div>
+    </t>
+</templates>

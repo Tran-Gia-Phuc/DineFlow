@@ -37,3 +37,5 @@ access_employee_waiter,access.employee.waiter,model_hr_employee,dineflow.group_d
 access_employee_chef,access.employee.chef,model_hr_employee,dineflow.group_dineflow_chef,1,0,0,0
 access_revenue_report_manager,access.revenue.report.manager,model_restaurant_revenue_report,dineflow.group_dineflow_manager,1,0,0,0
 access_leave_report_manager,access.leave.report.manager,model_restaurant_leave_report,dineflow.group_dineflow_manager,1,0,0,0
+access_restaurant_ai_chat_manager,restaurant.ai.chat manager,model_restaurant_ai_chat,dineflow.group_dineflow_manager,1,1,1,1
+access_restaurant_ai_chat_user,restaurant.ai.chat user,model_restaurant_ai_chat,base.group_user,1,1,0,0
