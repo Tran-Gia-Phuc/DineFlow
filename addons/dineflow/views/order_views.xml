@@ -35,6 +35,12 @@
                         invisible="status != 'open'"
                         context="{'default_order_id': active_id}"
                         groups="dineflow.group_dineflow_manager,dineflow.group_dineflow_cashier" />
+                    <button name="%(dineflow.action_report_order_invoice)d"
+                        string="In hóa đơn"
+                        type="action"
+                        invisible="status != 'paid'"
+                        groups="dineflow.group_dineflow_manager"
+                        class="btn-primary" />
                     <field name="status" widget="statusbar"
                         statusbar_visible="open,paid" />
                 </header>

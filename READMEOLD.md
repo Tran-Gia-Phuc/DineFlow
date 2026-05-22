@@ -139,3 +139,40 @@ server {
 If you find this project helpful, consider buying me a coffee to support my work!
 
 <a href="https://buymeacoffee.com/minhng.info" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+
+# Setup n8n Workflow
+
+## Bước 1: Tạo account
+- Vào http://localhost:31208
+- Đăng ký account admin
+
+## Bước 2: Import workflow
+- Workflows → Add Workflow → Import from file
+- Chọn file `dineflow_workflow.json`
+
+## Bước 3: Cấu hình Credentials
+- Vào node Google Gemini hoặc Groq
+- Tạo credential mới với API key
+- Groq API key: tạo tại https://console.groq.com
+
+## Bước 4: Activate
+- Click Publish → Activate
+
+
+# Setup Jenkins
+
+## Bước 1: Unlock
+docker compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+
+## Bước 2: Install suggested plugins
+
+## Bước 3: Tạo Pipeline job
+- New Item → Pipeline → Pipeline from SCM
+- Git URL: https://github.com/Tran-Gia-Phuc/DineFlow.git
+- Branch: Phuc
+- Script Path: Jenkinsfile
+
+## Bước 4: Cấu hình Telegram
+- Manage Jenkins → Credentials
+- Thêm Telegram Bot Token và Chat ID
