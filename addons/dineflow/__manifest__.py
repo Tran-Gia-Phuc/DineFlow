@@ -20,12 +20,14 @@
         "wizard/approve_leave_wizard.xml",
         "wizard/cancel_booking_wizard.xml",
         "wizard/cancel_order_wizard.xml",
+        "report/restaurant_order_report.xml",
         "views/booking_views.xml",
         "views/leave_views.xml",
         "views/order_views.xml",
         "views/employee_views.xml",
         "report/revenue_report_views.xml",
-        "report/leave_report_views.xml",  
+        "report/leave_report_views.xml",
+
     ],
     "assets": {
         "web.assets_backend": [
