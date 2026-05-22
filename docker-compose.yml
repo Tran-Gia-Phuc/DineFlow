@@ -45,7 +45,7 @@ services:
     volumes:
       - jenkins_home:/var/jenkins_home
       - //var/run/docker.sock:/var/run/docker.sock
-      - //e/odoo/Odoo17/zoo17:/zoo17  ← thêm dòng này
+      - //e/odoo/Odoo17/DineFlow:/DineFlow     
     restart: "no"
 volumes:
   jenkins_home:
