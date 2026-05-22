@@ -65,7 +65,7 @@ class DineFlowAPI(http.Controller):
                 'date_from':   str(l.date_from),
                 'date_to':     str(l.date_to),
                 'reason':      l.reason,
-                'state':       l.state,
+                'state':       l.status,
             })
         return self._json_response(result)
 

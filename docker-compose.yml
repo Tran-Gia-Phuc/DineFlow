@@ -8,7 +8,8 @@ services:
       - POSTGRES_DB=postgres
     restart: "no"
     volumes:
-        - ./postgresql:/var/lib/postgresql/data
+      - ./postgresql:/var/lib/postgresql/data
+
 
   odoo:
     image: odoo:17
@@ -27,7 +28,9 @@ services:
       - PASSWORD=Phuc0312
     volumes:
       - ./entrypoint.sh:/entrypoint.sh
+      - ./etc/odoo.conf:/etc/odoo/odoo.conf
       - ./addons:/mnt/extra-addons
+      - odoo_data:/var/lib/odoo
       - //e/odoo/Odoo17/DineFlow:/DineFlow
     restart: "no"
 
@@ -70,3 +73,4 @@ services:
 volumes:
   jenkins_home:
   n8n_data:
+  odoo_data:
