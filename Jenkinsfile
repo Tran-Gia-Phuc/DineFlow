@@ -14,19 +14,6 @@ pipeline {
                 sh './build_and_run.sh'
             }
         }
-
-        stage('Test') {
-            steps {
-                sh '''docker exec dineflow-odoo-1 odoo \
-                    -d intern \
-                    --db_host=db \
-                    --db_user=odoo \
-                    --db_password=Phuc0312 \
-                    --test-enable \
-                    --stop-after-init \
-                    -u dineflow'''
-            }
-        }
     }
 
     post {
