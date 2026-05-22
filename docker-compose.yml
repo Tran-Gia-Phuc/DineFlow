@@ -6,7 +6,7 @@ services:
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=Phuc0312
       - POSTGRES_DB=postgres
-    restart: "no"             # run as a service
+    restart: "no"
     volumes:
         - ./postgresql:/var/lib/postgresql/data
 
@@ -26,12 +26,10 @@ services:
       - USER=odoo
       - PASSWORD=Phuc0312
     volumes:
-      #- /etc/timezone:/etc/timezone:ro
-      #- /etc/localtime:/etc/localtime:ro
       - ./entrypoint.sh:/entrypoint.sh
       - ./addons:/mnt/extra-addons
-      - //e/odoo/Odoo17/DineFlow:/DineFlow   # ← đổi path trỏ đúng DineFlow
-    restart: "no"             # run as a service
+      - //e/odoo/Odoo17/DineFlow:/DineFlow
+    restart: "no"
 
   jenkins:
     build:
@@ -45,7 +43,30 @@ services:
     volumes:
       - jenkins_home:/var/jenkins_home
       - //var/run/docker.sock:/var/run/docker.sock
-      - //e/odoo/Odoo17/DineFlow:/DineFlow     
+      - //e/odoo/Odoo17/DineFlow:/DineFlow
     restart: "no"
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    ports:
+      - "31208:5678"
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://localhost:31208
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=Phuc0312
+      - GENERIC_TIMEZONE=Asia/Ho_Chi_Minh
+      - TZ=Asia/Ho_Chi_Minh
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      - odoo
+    restart: "no"
+
 volumes:
   jenkins_home:
+  n8n_data:
