@@ -87,3 +87,13 @@ make clean           # Xóa hết data (RESET)
 - Docker Desktop hoặc Docker Engine
 - Docker Compose v2+
 - RAM: 16GB (recommended) 
+
+# Setup n8n Workflow
+
+1. Vào http://localhost:31208
+2. Tạo account admin
+3. Click "Add workflow" → "Import from file"
+4. Chọn file `dineflow_workflow.json`
+5. Cấu hình credentials:
+   - Groq API Key: [tạo tại console.groq.com]
+6. Click Publish/Activate

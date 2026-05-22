@@ -139,3 +139,14 @@ server {
 If you find this project helpful, consider buying me a coffee to support my work!
 
 <a href="https://buymeacoffee.com/minhng.info" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+
+# Setup n8n Workflow
+
+1. Vào http://localhost:31208
+2. Tạo account admin
+3. Click "Add workflow" → "Import from file"
+4. Chọn file `dineflow_workflow.json`
+5. Cấu hình credentials:
+   - Groq API Key: [tạo tại console.groq.com]
+6. Click Publish/Activate
