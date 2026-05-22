@@ -14,10 +14,17 @@ pipeline {
                 sh './build_and_run.sh'
             }
         }
-        
+
         stage('Test') {
             steps {
-                sh 'docker exec dineflow-odoo-1 odoo -d intern --test-enable --stop-after-init -u dineflow'
+                sh '''docker exec dineflow-odoo-1 odoo \
+                    -d intern \
+                    --db_host=db \
+                    --db_user=odoo \
+                    --db_password=Phuc0312 \
+                    --test-enable \
+                    --stop-after-init \
+                    -u dineflow'''
             }
         }
     }
@@ -32,6 +39,9 @@ Job: ${JOB_NAME}
 Build: #${BUILD_NUMBER}
 Commit: ${GIT_COMMIT}"
             '''
+        }
+        success {
+            echo 'Deploy thành công!'
         }
     }
 }
