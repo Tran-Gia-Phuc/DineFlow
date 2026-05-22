@@ -27,7 +27,6 @@
         "views/employee_views.xml",
         "report/revenue_report_views.xml",
         "report/leave_report_views.xml",
-
     ],
     "assets": {
         "web.assets_backend": [
@@ -37,6 +36,9 @@
             #     "zoo/static/src/components/myheader/*",
         ]
     },
+    "test": [
+        "tests/test_dineflow.py",
+    ],
     "demo": [],
     "css": [],
     # 'qweb': [
