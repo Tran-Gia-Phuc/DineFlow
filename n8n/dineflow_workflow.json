@@ -6,10 +6,10 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        144,
-        160
+        0,
+        0
       ],
-      "id": "9894377d-0f2a-4cf9-8ca8-d1cb278c4a39",
+      "id": "29b114c9-2bb5-45b2-88ce-b56b159825a4",
       "name": "When clicking ‘Execute workflow’"
     },
     {
@@ -22,10 +22,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        384,
-        160
+        240,
+        0
       ],
-      "id": "1d95a0b6-271f-467c-9ef8-155938ccfcb6",
+      "id": "1b5a38a5-b97b-438b-988f-5dd28a135982",
       "name": "Webhook",
       "webhookId": "d9b8ec0b-5447-44f8-956c-f30b9cb45958"
     },
@@ -40,10 +40,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        640,
-        160
+        496,
+        0
       ],
-      "id": "0cdc083e-2440-44d1-b0d4-23290a8f0c0c",
+      "id": "0d18ba09-01ae-4522-8e5e-0f75cfa27ee5",
       "name": "AI Agent"
     },
     {
@@ -54,17 +54,11 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        304,
-        464
+        160,
+        304
       ],
-      "id": "d85e119d-05b9-49ea-b813-2460b771132c",
-      "name": "Google Gemini Chat Model",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "myt62Pzi4GDl4qYN",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
+      "id": "359f1f98-2f25-4286-a2bb-423751dd729b",
+      "name": "Google Gemini Chat Model"
     },
     {
       "parameters": {
@@ -84,10 +78,10 @@
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.3,
       "position": [
-        880,
-        384
+        640,
+        208
       ],
-      "id": "e8eb86e9-c5e0-4ca5-a8e1-883dcaaffef6",
+      "id": "89c43ad8-6f7c-41d6-ba66-2d22f87103ae",
       "name": "get_leave_requests"
     },
     {
@@ -99,10 +93,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        992,
-        160
+        848,
+        0
       ],
-      "id": "5bea8135-a907-40db-a07a-a3265ea297d0",
+      "id": "08446076-1a43-4789-ad4e-579b9c249562",
       "name": "Respond to Webhook"
     },
     {
@@ -113,14 +107,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
       "typeVersion": 1,
       "position": [
-        512,
-        352
+        368,
+        192
       ],
-      "id": "1186c43b-27a4-43a3-9362-3c1c3db2b4ab",
+      "id": "3a522c48-06fb-4673-a9f6-5d89c1408ad7",
       "name": "Groq Chat Model",
       "credentials": {
         "groqApi": {
-          "id": "n0iYjqaBOZ9rUJMi",
+          "id": "K9RhE3bdPoVvYTNP",
           "name": "Groq account"
         }
       }
@@ -134,25 +128,111 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        656,
-        368
+        512,
+        208
       ],
-      "id": "4e1801f4-3efa-46e4-b299-ebeb82b28da5",
+      "id": "3073cf03-427f-47c1-8f05-5bd1d735eafc",
       "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Lấy danh sách bàn trong quán",
+        "url": "http://localhost:31204/dineflow/api/tables",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "dineflow-secret-2024"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        800,
+        208
+      ],
+      "id": "7ef7d5a0-fcba-4e1a-a604-416a672a641b",
+      "name": "get_tables"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Lấy danh sách món ăn",
+        "url": "http://localhost:31204/dineflow/api/menu-items",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "dineflow-secret-2024"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        960,
+        208
+      ],
+      "id": "cef5595d-a63a-400e-b52c-432200d66877",
+      "name": "get_menuitems"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Lấy danh sách nhân viên",
+        "url": "http://localhost:31204/dineflow/api/employees",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "dineflow-secret-2024"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        1120,
+        208
+      ],
+      "id": "eb4d75ec-d236-4fbd-a95c-920a57c1ad5a",
+      "name": "get_employees"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Lấy danh sách đặt bàn",
+        "url": "http://localhost:31204/dineflow/api/bookings",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "dineflow-secret-2024"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.3,
+      "position": [
+        1280,
+        208
+      ],
+      "id": "2854a300-e8c7-4cb0-9195-f9e86efaac3d",
+      "name": "get_booking"
     }
   ],
   "pinData": {},
   "connections": {
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        []
-      ]
-    },
-    "Google Gemini Chat Model": {
-      "ai_languageModel": [
-        []
-      ]
-    },
     "get_leave_requests": {
       "ai_tool": [
         [
@@ -214,11 +294,10 @@
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "ed593133-d7c9-40f2-b984-750037049efb",
+  "versionId": "4745d1be-4654-4c07-aace-b0d62c658008",
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "7f0da61b10fa73cb46080bc026fbfa43273197f9566bb18990bc58a4ec73ac7e"
+    "instanceId": "1ef2aae832fcd7070d0a7f265d441ea32cebcd62f01379890c577ec838a3e800"
   },
-  "id": "zsR49Zn9mDnD1toHRcsew",
+  "id": "gMwjAL0hARgnE8m3aV2m4",
   "tags": []
 }
