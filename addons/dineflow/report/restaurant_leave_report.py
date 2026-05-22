@@ -10,6 +10,7 @@ class RestaurantLeaveReport(models.Model):
     employee_id = fields.Many2one('hr.employee', string='Nhân viên', readonly=True)
     date_from = fields.Date(string='Từ ngày', readonly=True)
     date_to = fields.Date(string='Đến ngày', readonly=True)
+    test = fields.Char(string='Test', readonly=True)
     leave_type = fields.Selection([
         ('annual', 'Nghỉ phép năm'),
         ('sick', 'Nghỉ bệnh'),
@@ -17,7 +18,7 @@ class RestaurantLeaveReport(models.Model):
         ('other', 'Khác'),
     ], string='Loại nghỉ', readonly=True)
     status = fields.Selection([
-        ('draft', 'Nháp'),
+        ('draft', ' Nháp'),
         ('confirmed', 'Đã gửi'),
         ('approved', 'Đã duyệt'),
         ('refused', 'Đã hủy'),
@@ -38,3 +39,4 @@ class RestaurantLeaveReport(models.Model):
                 FROM restaurant_leave_request l
             )
         """)
+        
