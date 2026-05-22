@@ -4,13 +4,13 @@ set -e
 # ==========================================
 # CẤU HÌNH
 # ==========================================
-DB_NAME="test"
-ODOO_CONTAINER="zoo17-odoo17-1"
-DB_CONTAINER="zoo17-db-1"
-ADDONS_DIR="/zoo17/addons"
-BACKUP_DIR="/zoo17/backup"
+DB_NAME="intern"
+ODOO_CONTAINER="dineflow-odoo-1"
+DB_CONTAINER="dineflow-db-1"
+ADDONS_DIR="/DineFlow/addons"        # ← path trong container jenkins
+BACKUP_DIR="/DineFlow/backup"        # ← path trong container jenkins
 
-# Telegram (tạo bot xong điền vào đây)
+# Telegram
 TELEGRAM_TOKEN="8891955831:AAFlT0DQtN4pednHINba87bKRya3PH_Pi9o"
 TELEGRAM_CHAT_ID="5594081068"
 
@@ -27,9 +27,9 @@ send_telegram() {
 }
 
 echo "================================================"
-echo "=== BẮT ĐẦU DEPLOY ODOO 17 ==="
+echo "=== BẮT ĐẦU DEPLOY DINEFLOW ==="
 echo "================================================"
-send_telegram "🚀 Bắt đầu deploy Odoo...
+send_telegram "🚀 Bắt đầu deploy DineFlow...
 Commit: $GIT_COMMIT
 Branch: $GIT_BRANCH"
 
@@ -77,11 +77,12 @@ send_telegram "📦 Sync addons xong
 # ==========================================
 echo "=== [4/4] Restart và update modules ==="
 docker restart $ODOO_CONTAINER
-send_telegram "🔄 Docker restart zoo17-odoo17-1...
+send_telegram "🔄 Docker restart $ODOO_CONTAINER...
 ⏳ Đợi Odoo khởi động (20s)"
 
 sleep 20
-docker exec $ODOO_CONTAINER odoo -u all -d $DB_NAME --stop-after-init
+docker exec $ODOO_CONTAINER odoo -u dineflow -d $DB_NAME --stop-after-init \
+    --db_host=db --db_user=odoo --db_password=Phuc0312
 
 send_telegram "✅ Update modules xong
 🟢 Odoo đã sẵn sàng!"

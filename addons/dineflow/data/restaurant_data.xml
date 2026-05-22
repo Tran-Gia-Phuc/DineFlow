@@ -516,7 +516,7 @@
             <field name="date_to">2026-05-29</field>
             <field name="leave_type">annual</field>
             <field name="reason">Nghỉ phép du lịch gia đình</field>
-            <field name="status">confirm</field>
+            <field name="status">confirmed</field>
         </record>
 
         <!-- Đã gửi chờ duyệt -->
@@ -558,7 +558,7 @@
             <field name="date_to">2026-06-20</field>
             <field name="leave_type">personal</field>
             <field name="reason">Dự đám cưới</field>
-            <field name="status">confirm</field>
+            <field name="status">confirmed</field>
         </record>
 
     </data>

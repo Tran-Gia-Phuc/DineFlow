@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Định nghĩa QWeb template -->
+    <template id="report_order_invoice">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <h2 class="text-center">HÓA ĐƠN THANH TOÁN</h2>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Mã đơn:</strong> <t t-esc="o.name"/><br/>
+                                <strong>Bàn:</strong> <t t-esc="o.table_id.name"/><br/>
+                                <strong>Phục vụ:</strong> <t t-esc="o.waiter_id.name or ''"/>
+                            </div>
+                            <div class="col-6 text-right">
+                                <strong>Ngày:</strong>
+                                <t t-esc="o.write_date" t-options='{"widget": "datetime"}'/>
+                            </div>
+                        </div>
+
+                        <table class="table table-bordered mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Món</th>
+                                    <th class="text-center">SL</th>
+                                    <th class="text-right">Đơn giá</th>
+                                    <th class="text-right">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.order_line_ids" t-as="line">
+                                    <tr>
+                                        <td><t t-esc="line.menu_item_id.name"/></td>
+                                        <td class="text-center"><t t-esc="line.quantity"/></td>
+                                        <td class="text-right">
+                                            <t t-esc="line.unit_price"
+                                               t-options='{"widget": "monetary", "display_currency": o.env.company.currency_id}'/>
+                                        </td>
+                                        <td class="text-right">
+                                            <t t-esc="line.subtotal"
+                                               t-options='{"widget": "monetary", "display_currency": o.env.company.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-right"><strong>Tổng cộng:</strong></td>
+                                    <td class="text-right">
+                                        <strong>
+                                            <t t-esc="o.total_amount"
+                                               t-options='{"widget": "monetary", "display_currency": o.env.company.currency_id}'/>
+                                        </strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="text-right">Phương thức thanh toán:</td>
+                                    <td class="text-right">
+                                        <t t-if="o.payment_method == 'cash'">Tiền mặt</t>
+                                        <t t-elif="o.payment_method == 'card'">Thẻ</t>
+                                        <t t-elif="o.payment_method == 'transfer'">Chuyển khoản</t>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <div class="text-center mt-4">
+                            <p>Cảm ơn quý khách! Hẹn gặp lại.</p>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Đăng ký report action -->
+    <record id="action_report_order_invoice" model="ir.actions.report">
+        <field name="name">Hóa đơn thanh toán</field>
+        <field name="model">restaurant.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">dineflow.report_order_invoice</field>
+        <field name="report_file">dineflow.report_order_invoice</field>
+        <field name="binding_model_id" ref="model_restaurant_order"/>
+        <field name="groups_id" eval="[(6, 0, [ref('dineflow.group_dineflow_manager')])]"/>
+    </record>
+
+</odoo>
