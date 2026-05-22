@@ -30,10 +30,10 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "dineflow/static/src/css/dineflow.css"
-            #     "zoo/static/src/components/counter/*",  # <-- khai báo widget sắp hiện thực
-            #     "zoo/static/src/components/mytable/*",
-            #     "zoo/static/src/components/myheader/*",
+            "dineflow/static/src/components/ai_chat/ai_chat.js",
+            "dineflow/static/src/components/ai_chat/ai_chat.xml",
+            "dineflow/static/src/components/ai_chat/ai_chat.css",
+            "dineflow/static/src/css/dineflow.css",
         ]
     },
     "test": [

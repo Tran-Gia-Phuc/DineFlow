@@ -66,6 +66,7 @@ services:
       - TZ=Asia/Ho_Chi_Minh
     volumes:
       - n8n_data:/home/node/.n8n
+      - ./n8n:/home/node/.n8n/workflows   
     depends_on:
       - odoo
     restart: "no"
