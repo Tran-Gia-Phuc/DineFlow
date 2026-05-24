@@ -1,7 +1,11 @@
 import json
 import requests
+import logging
+
 from odoo import http
 from odoo.http import request
+
+_logger = logging.getLogger(__name__)
 
 N8N_WEBHOOK_URL = 'http://n8n:5678/webhook/dineflow-chat'
 
@@ -13,7 +17,6 @@ class DineFlowChat(http.Controller):
         if not message:
             return {'error': 'Tin nhắn không được để trống'}
 
-        # Lấy thông tin nhân viên đang login
         employee = request.env['hr.employee'].sudo().search([
             ('user_id', '=', request.env.uid)
         ], limit=1)
@@ -22,7 +25,6 @@ class DineFlowChat(http.Controller):
         employee_name = employee.name if employee else 'Unknown'
         session_id = f"odoo_{request.env.uid}"
 
-        # Xác định role
         user = request.env.user
         if user.has_group('dineflow.group_dineflow_manager'):
             role = 'manager'
@@ -37,12 +39,19 @@ class DineFlowChat(http.Controller):
                 'role': role,
                 'employee_id': employee_id,
                 'employee_name': employee_name,
-            }, timeout=30)
+            }, timeout=60)
             ai_response = resp.text
+            _logger.info(f"n8n status={resp.status_code}, body={ai_response}")  # log full body
+        except requests.exceptions.Timeout:
+            _logger.error("n8n TIMEOUT sau 60s")
+            ai_response = 'AI đang bận, vui lòng thử lại'
+        except requests.exceptions.ConnectionError:
+            _logger.error("Không kết nối được n8n")
+            ai_response = 'Lỗi kết nối AI'
         except Exception as e:
-            ai_response = f'Lỗi kết nối AI: {str(e)}'
+            _logger.error(f"n8n error: {str(e)}")
+            ai_response = f'Lỗi: {str(e)}'
 
-        # Lưu lịch sử chat
         request.env['restaurant.ai.chat'].sudo().create({
             'employee_id': employee_id,
             'session_id': session_id,
@@ -60,8 +69,13 @@ class DineFlowChat(http.Controller):
     def chat_history(self, **kwargs):
         session_id = f"odoo_{request.env.uid}"
         history = request.env['restaurant.ai.chat'].sudo().search([
-            ('session_id', '=', session_id)
-        ], order='created_at asc', limit=50)
+            ('session_id', '=', session_id),
+            ('response', '!=', False),
+            ('response', '!=', ''),
+        ], order='created_at desc', limit=20)
+        history = history.sorted('created_at')
+
+        _logger.info(f"Chat history query: session_id={session_id}, found={len(history)}")
 
         return [{
             'message': h.message,

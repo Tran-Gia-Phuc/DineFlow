@@ -20,12 +20,20 @@ export class AIChatComponent extends Component {
     }
 
     async _loadHistory() {
-        const history = await this.rpc("/dineflow/chat/history", {});
-        for (const h of history) {
-            this.state.messages.push({ from: "user", text: h.message, time: h.created_at });
-            this.state.messages.push({ from: "bot", text: h.response, time: h.created_at });
+        try {
+            const history = await this.rpc("/dineflow/chat/history", {});
+            for (const h of history) {
+                if (h.message) {
+                    this.state.messages.push({ from: "user", text: h.message, time: h.created_at });
+                }
+                if (h.response && h.response.trim()) {  // ← thêm .trim() check rỗng
+                    this.state.messages.push({ from: "bot", text: h.response, time: h.created_at });
+                }
+            }
+            this._scrollToBottom();
+        } catch (e) {
+            console.error("Load history error:", e);
         }
-        this._scrollToBottom();
     }
 
     async sendMessage() {

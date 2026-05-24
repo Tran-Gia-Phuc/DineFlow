@@ -6,8 +6,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        0,
-        0
+        -304,
+        432
       ],
       "id": "29b114c9-2bb5-45b2-88ce-b56b159825a4",
       "name": "When clicking ‘Execute workflow’"
@@ -34,35 +34,23 @@
         "promptType": "define",
         "text": "={{ $json.body.message }}",
         "options": {
-          "systemMessage": "Bạn là trợ lý AI nhà hàng DineFlow, trả lời bằng tiếng Việt.\n\nBạn có các công cụ:\n- get_leave_requests: dùng khi người dùng hỏi về đơn nghỉ phép, lịch nghỉ nhân viên\n- get_revenue: dùng khi người dùng hỏi về doanh thu, doanh số nhà hàng\nKhi nhận được data từ tool, hãy:\n- Lọc theo tên/ngày nếu người dùng yêu cầu\n- Sắp xếp theo thời gian gần nhất nếu không có yêu cầu khác\n- Chỉ hiển thị thông tin liên quan đến yêu cầu\n\nChỉ gọi tool khi câu hỏi thực sự liên quan. \nNếu chỉ là chào hỏi hoặc câu hỏi thông thường thì trả lời bình thường, KHÔNG gọi tool."
+          "systemMessage": "Bạn là trợ lý AI nhà hàng DineFlow. Trả lời bằng tiếng Việt, ngắn gọn.\n\nTOOLS:\n- get_menu_items: hỏi về món ăn, thực đơn, đồ uống\n- get_tables: hỏi về bàn, trạng thái bàn\n- get_employees: hỏi về nhân viên\n- get_bookings: hỏi về đặt bàn\n- get_leave_requests: hỏi về nghỉ phép\n- get_revenue: hỏi về doanh thu\n\nQUY TẮC:\n- Câu hỏi liên quan data nhà hàng → GỌI TOOL, trình bày kết quả dạng danh sách đẹp\n- Câu hỏi không rõ → hỏi lại ngắn gọn\n- Chào hỏi thông thường → trả lời bình thường, không gọi tool\n- Luôn gọi tool để lấy data mới, không dùng data từ tin nhắn trước"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        496,
+        704,
         0
       ],
       "id": "0d18ba09-01ae-4522-8e5e-0f75cfa27ee5",
-      "name": "AI Agent"
+      "name": "AI Agent",
+      "retryOnFail": true,
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.0-flash",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        160,
-        304
-      ],
-      "id": "359f1f98-2f25-4286-a2bb-423751dd729b",
-      "name": "Google Gemini Chat Model"
-    },
-    {
-      "parameters": {
-        "toolDescription": "Lấy danh sách đơn nghỉ phép của nhân viên",
+        "toolDescription": "Lấy danh sách nghỉ phép",
         "url": "http://odoo:8069/dineflow/api/leave",
         "sendHeaders": true,
         "headerParameters": {
@@ -78,7 +66,7 @@
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.3,
       "position": [
-        640,
+        672,
         208
       ],
       "id": "89c43ad8-6f7c-41d6-ba66-2d22f87103ae",
@@ -87,13 +75,13 @@
     {
       "parameters": {
         "respondWith": "text",
-        "responseBody": "={{ $json.output }}",
+        "responseBody": "={{ $('AI Agent').item.json.output || 'AI đang bận, vui lòng thử lại sau giây lát.' }}",
         "options": {}
       },
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        848,
+        1056,
         0
       ],
       "id": "08446076-1a43-4789-ad4e-579b9c249562",
@@ -101,29 +89,9 @@
     },
     {
       "parameters": {
-        "model": "llama-3.3-70b-versatile",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
-      "typeVersion": 1,
-      "position": [
-        368,
-        192
-      ],
-      "id": "3a522c48-06fb-4673-a9f6-5d89c1408ad7",
-      "name": "Groq Chat Model",
-      "credentials": {
-        "groqApi": {
-          "id": "K9RhE3bdPoVvYTNP",
-          "name": "Groq account"
-        }
-      }
-    },
-    {
-      "parameters": {
         "sessionIdType": "customKey",
         "sessionKey": "={{ $('Webhook').item.json.body.session_id || 'default' }}",
-        "contextWindowLength": 20
+        "contextWindowLength": 4
       },
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
@@ -136,8 +104,8 @@
     },
     {
       "parameters": {
-        "toolDescription": "Lấy danh sách bàn trong quán",
-        "url": "http://localhost:31204/dineflow/api/tables",
+        "toolDescription": "Lấy danh sách đặt bàn",
+        "url": "http://odoo:8069/dineflow/api/tables",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -160,8 +128,8 @@
     },
     {
       "parameters": {
-        "toolDescription": "Lấy danh sách món ăn",
-        "url": "http://localhost:31204/dineflow/api/menu-items",
+        "toolDescription": "Lấy danh sách món ăn, thực đơn, đồ uống",
+        "url": "http://odoo:8069/dineflow/api/menu-items",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -185,7 +153,7 @@
     {
       "parameters": {
         "toolDescription": "Lấy danh sách nhân viên",
-        "url": "http://localhost:31204/dineflow/api/employees",
+        "url": "http://odoo:8069/dineflow/api/employees",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -208,8 +176,8 @@
     },
     {
       "parameters": {
-        "toolDescription": "Lấy danh sách đặt bàn",
-        "url": "http://localhost:31204/dineflow/api/bookings",
+        "toolDescription": "LUÔN gọi tool này khi hỏi về đặt bàn, booking, lịch đặt. Phải lấy data mới nhất.",
+        "url": "http://odoo:8069/dineflow/api/bookings",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -229,6 +197,207 @@
       ],
       "id": "2854a300-e8c7-4cb0-9195-f9e86efaac3d",
       "name": "get_booking"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.1-8b-instant",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        368,
+        368
+      ],
+      "id": "4c63bb9d-8cf7-4fb5-878f-98203a5587ef",
+      "name": "sibachao004",
+      "credentials": {
+        "groqApi": {
+          "id": "DpPYkCmn96ujpFU6",
+          "name": "sibachao004"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "llama-3.1-8b-instant",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        368,
+        208
+      ],
+      "id": "3a522c48-06fb-4673-a9f6-5d89c1408ad7",
+      "name": "sibachao003",
+      "credentials": {
+        "groqApi": {
+          "id": "K9RhE3bdPoVvYTNP",
+          "name": "sibachoa003"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "llama-3.1-8b-instant",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        208,
+        368
+      ],
+      "id": "b17d337e-84a7-4f10-9a63-d7ec1683e35a",
+      "name": "giaphuc031204",
+      "credentials": {
+        "groqApi": {
+          "id": "EMDBJyAwTyrgWRco",
+          "name": "giaphuc031204"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "llama-3.1-8b-instant",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        208,
+        208
+      ],
+      "id": "c27d5db7-fd3f-4131-8290-6ee37bca1158",
+      "name": "baotran2901",
+      "credentials": {
+        "groqApi": {
+          "id": "OTXcLAaoV3zE7bJH",
+          "name": "baotran2901"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        480,
+        -112
+      ],
+      "id": "12cea910-1e02-4571-af01-4eb8bf43fe5e",
+      "name": "baotran",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "x7p3KIKZkuuZJuMh",
+          "name": "baotran2901"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "baidu/cobuddy:free",
+          "mode": "list",
+          "cachedResultName": "baidu/cobuddy:free"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        528,
+        368
+      ],
+      "id": "f74889d8-ea16-4d0c-96d0-045802c9cfa4",
+      "name": "sibachao3",
+      "credentials": {
+        "openAiApi": {
+          "id": "J8kKcDWqZBkssySY",
+          "name": "sibachao003"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        656,
+        368
+      ],
+      "id": "7644a552-2fce-4ec9-87bc-78617310d8bc",
+      "name": "sibachao4",
+      "credentials": {
+        "openAiApi": {
+          "id": "im0twQY4TG3MmZOn",
+          "name": "sibachao004"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        784,
+        368
+      ],
+      "id": "23b05e3b-c567-48a9-8ab3-1d6573bccc7e",
+      "name": "tran",
+      "credentials": {
+        "openAiApi": {
+          "id": "im0twQY4TG3MmZOn",
+          "name": "tran"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        896,
+        368
+      ],
+      "id": "dd5d26a3-3b18-489c-a7e6-a3112d33ac61",
+      "name": "giaphuc",
+      "credentials": {
+        "openAiApi": {
+          "id": "im0twQY4TG3MmZOn",
+          "name": "giaphuc"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -266,7 +435,61 @@
         ]
       ]
     },
-    "Groq Chat Model": {
+    "Simple Memory": {
+      "ai_memory": [
+        []
+      ]
+    },
+    "get_tables": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_menuitems": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_employees": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_booking": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "sibachao003": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "baotran2901": {
       "ai_languageModel": [
         [
           {
@@ -277,15 +500,14 @@
         ]
       ]
     },
-    "Simple Memory": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
+    "baotran": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "sibachao3": {
+      "ai_languageModel": [
+        []
       ]
     }
   },
@@ -294,8 +516,9 @@
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "4745d1be-4654-4c07-aace-b0d62c658008",
+  "versionId": "5d357a43-1edd-4c8c-89df-719b5f7180b1",
   "meta": {
+    "templateCredsSetupCompleted": true,
     "instanceId": "1ef2aae832fcd7070d0a7f265d441ea32cebcd62f01379890c577ec838a3e800"
   },
   "id": "gMwjAL0hARgnE8m3aV2m4",

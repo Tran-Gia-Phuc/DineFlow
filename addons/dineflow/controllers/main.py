@@ -32,7 +32,7 @@ class DineFlowAPI(http.Controller):
             domain.append(('employee_id', '=', int(employee_id)))
         if status:
             domain.append(('status', '=', status))
-        leaves = request.env['restaurant.leave.request'].sudo().search(domain, order='date_from desc')
+        leaves = request.env['restaurant.leave.request'].sudo().search(domain, order='date_from desc',limit=10)
         result = []
         for l in leaves:
             result.append({
@@ -335,7 +335,7 @@ class DineFlowAPI(http.Controller):
             domain.append(('status', '=', status))
         if table_id:
             domain.append(('table_id', '=', int(table_id)))
-        bookings = request.env['restaurant.booking'].sudo().search(domain, order='date_start desc')
+        bookings = request.env['restaurant.booking'].sudo().search(domain, order='date_start desc', limit=10)
         result = []
         for b in bookings:
             result.append({
@@ -421,17 +421,19 @@ class DineFlowAPI(http.Controller):
     # ══════════════════════════════════════════════════════════
     # REVENUE
     # ══════════════════════════════════════════════════════════
-    @http.route('/dineflow/api/revenue', type='http', auth='none',
-                methods=['GET'], csrf=False)
+    @http.route('/dineflow/api/revenue', type='http', auth='none', methods=['GET'], csrf=False)
     def get_revenue(self):
         if not self._check_api_key():
             return self._json_response({'error': 'Unauthorized'}, 401)
-        records = request.env['restaurant.revenue.report'].sudo().search([])
+        records = request.env['restaurant.revenue.report'].sudo().search([], order='date desc', limit=10)
         result = []
         for r in records:
             result.append({
-                'date':        str(r.date),
-                'revenue':     r.revenue,
-                'order_count': r.order_count,
+                'order_id':       r.order_id.id,
+                'order_name':     r.order_id.name,
+                'date':           str(r.date),
+                'table':          r.table_id.name if r.table_id else None,
+                'total_amount':   r.total_amount,
+                'payment_method': r.payment_method,
             })
         return self._json_response(result)
