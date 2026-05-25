@@ -1,19 +1,16 @@
 # Project Tree Structure
 
-Generated on 5/24/2026
+Generated on 5/22/2026
 
 ```
 └── 📁 dineflow
     ├── 📁 controllers
-    │   ├── 📄 __init__.py
-    │   ├── 📄 chat.py
-    │   └── 📄 main.py
+    │   └── 📄 __init__.py
     ├── 📁 data
     │   └── 📄 restaurant_data.xml
     ├── 📁 models
     │   ├── 📄 __init__.py
     │   ├── 📄 hr_employee.py
-    │   ├── 📄 restaurant_ai_chat.py
     │   ├── 📄 restaurant_booking.py
     │   ├── 📄 restaurant_category.py
     │   ├── 📄 restaurant_leave.py
@@ -34,19 +31,13 @@ Generated on 5/24/2026
     │   ├── 📁 description
     │   │   └── 🖼️ icon.png
     │   ├── 📁 src
-    │   │   ├── 📁 components
-    │   │   │   ├── 📁 ai_chat
-    │   │   │   │   ├── 🎨 ai_chat.css
-    │   │   │   │   ├── 📜 ai_chat.js
-    │   │   │   │   └── 📄 ai_chat.xml
-    │   │   │   └── 📄 a
     │   │   ├── 📁 css
     │   │   │   └── 🎨 dineflow.css
     │   │   └── 📄 z
-    │   ├── 📄 a
-    │   └── 📝 PROJECT_TREE.md
+    │   └── 📄 a
     ├── 📁 tests
     │   ├── 📄 __init__.py
+    │   ├── 📄 test_basic.py
     │   └── 📄 test_dineflow.py
     ├── 📁 views
     │   ├── 📄 booking_views.xml
@@ -68,6 +59,5 @@ Generated on 5/24/2026
     │   └── 📄 payment_wizard.xml
     ├── 📄 __init__.py
     ├── 📄 __manifest__.py
-    ├── 📜 a.js
-    └── 📝 PROJECT_TREE.md
+    └── 📜 a.js
 ```
