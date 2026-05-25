@@ -10,7 +10,6 @@ services:
     volumes:
       - ./postgresql:/var/lib/postgresql/data
 
-
   odoo:
     image: odoo:17
     user: root
@@ -32,6 +31,34 @@ services:
       - ./addons:/mnt/extra-addons
       - odoo_data:/var/lib/odoo
       - //e/odoo/Odoo17/DineFlow:/DineFlow
+    restart: "no"
+
+  # ── MỚI: Redis ───────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "31209:6379"      # port ra ngoài để debug, không bắt buộc
+    restart: "no"
+    volumes:
+      - redis_data:/data
+
+  # ── MỚI: AI Service ──────────────────────────────────────────
+  ai_service:
+    build:
+      context: ./ai_service
+      dockerfile: Dockerfile
+    container_name: ai_service
+    ports:
+      - "31210:8000"      # gọi từ ngoài: localhost:31210
+    env_file:
+      - ./ai_service/.env
+    depends_on:
+      - db
+      - odoo
+      - redis
+    volumes:
+      - ./ai_service:/app   # mount code → --reload tự restart khi sửa file
     restart: "no"
 
   jenkins:
@@ -66,7 +93,7 @@ services:
       - TZ=Asia/Ho_Chi_Minh
     volumes:
       - n8n_data:/home/node/.n8n
-      - ./n8n:/home/node/.n8n/workflows   
+      - ./n8n:/home/node/.n8n/workflows
     depends_on:
       - odoo
     restart: "no"
@@ -75,3 +102,4 @@ volumes:
   jenkins_home:
   n8n_data:
   odoo_data:
+  redis_data:       # ── MỚI
