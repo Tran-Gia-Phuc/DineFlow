@@ -108,7 +108,7 @@ make clean           # Xóa hết data (RESET)
 
 
 # Setup Jenkins
-
+t
 ## Bước 1: Unlock
 docker compose exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 
