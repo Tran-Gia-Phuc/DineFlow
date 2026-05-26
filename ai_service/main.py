@@ -147,3 +147,103 @@ async def chat_endpoint(
         response=response_text,
         session_id=body.session_id,
     )
+    
+    import uuid
+from storage.job_tracker import (
+    create_job, get_job, update_job_status,
+    JobStatus, get_redis, close_redis
+)
+
+# ── Lifespan — thêm Redis shutdown ───────────────────────────
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    ...
+    await init_db()
+    await get_redis()   # khởi tạo Redis connection sớm
+    logger.info("AI Service ready ✓")
+    yield
+    await close_redis()  # đóng Redis khi shutdown
+    logger.info("Shutting down AI Service...")
+
+
+# ── Endpoint mới: gửi job async ──────────────────────────────
+@app.post("/chat/async")
+async def chat_async(
+    body: ChatRequest,
+    background_tasks: BackgroundTasks,
+    api_key: str = Depends(verify_api_key),
+):
+    """
+    Gửi request xử lý ngầm, trả job_id ngay lập tức.
+    Odoo poll /chat/async/{job_id} để lấy kết quả.
+    """
+    job_id = str(uuid.uuid4())
+
+    # Tạo job PENDING
+    await create_job(
+        job_id=job_id,
+        session_id=body.session_id,
+        message=body.message,
+    )
+
+    # Chạy agent ngầm — không block response
+    background_tasks.add_task(
+        _process_job,
+        job_id=job_id,
+        body=body,
+    )
+
+    return {
+        "success":    True,
+        "job_id":     job_id,
+        "status":     JobStatus.PENDING,
+        "message":    "Đang xử lý, poll /chat/async/{job_id} để lấy kết quả",
+    }
+
+
+async def _process_job(job_id: str, body: ChatRequest) -> None:
+    """Chạy agent và cập nhật job status."""
+    try:
+        await update_job_status(job_id, JobStatus.PROCESSING)
+
+        history = await load_history(body.session_id)
+        response_text = await run_agent(
+            message=body.message,
+            session_id=body.session_id,
+            raw_history=history,
+        )
+
+        await save_message(body.session_id, "user", body.message,
+                           count_tokens(body.message))
+        await save_message(body.session_id, "assistant", response_text,
+                           count_tokens(response_text))
+
+        await update_job_status(job_id, JobStatus.COMPLETED, result=response_text)
+
+    except Exception as e:
+        logger.error(f"Job {job_id} failed: {e}", exc_info=True)
+        await update_job_status(job_id, JobStatus.FAILED, error=str(e))
+
+
+# ── Endpoint poll kết quả ─────────────────────────────────────
+@app.get("/chat/async/{job_id}")
+async def get_job_result(
+    job_id: str,
+    api_key: str = Depends(verify_api_key),
+):
+    """Odoo gọi endpoint này để kiểm tra job đã xong chưa."""
+    job = await get_job(job_id)
+
+    if not job:
+        return JSONResponse(
+            status_code=404,
+            content={"success": False, "message": f"Job {job_id} không tìm thấy"}
+        )
+
+    return {
+        "success":  True,
+        "job_id":   job_id,
+        "status":   job["status"],
+        "result":   job.get("result"),
+        "error":    job.get("error"),
+    }
