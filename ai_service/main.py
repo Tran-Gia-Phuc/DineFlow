@@ -28,6 +28,9 @@ from agent.memory import count_tokens
 from validator.sanitizer import sanitize_message, sanitize_session_id
 from validator.schema import ChatRequestSchema
 
+from agent.token_counter import format_token_display
+
+
 # ── Logger ────────────────────────────────────────────────────
 logging.basicConfig(
     level=logging.DEBUG if settings.debug else logging.INFO,
@@ -155,6 +158,7 @@ async def chat_endpoint(
     # ── Sanitize input ─────────────────────────────
     clean_message, warnings = sanitize_message(body.message)
     clean_session_id = sanitize_session_id(body.session_id)
+
     if "Phát hiện nội dung không hợp lệ" in warnings:
         return ChatResponse(
             success=True,
@@ -167,7 +171,8 @@ async def chat_endpoint(
 
     logger.info(f"[{clean_session_id}] User: {clean_message[:80]}")
 
-    pipeline = select_pipeline(clean_message)
+    pipeline     = select_pipeline(clean_message)
+    token_report = None
 
     if pipeline == Pipeline.SIMPLE:
         response_text = get_simple_response(clean_message)
@@ -179,32 +184,31 @@ async def chat_endpoint(
             SystemMessage(content="Bạn là trợ lý AI của nhà hàng DineFlow. Trả lời bằng tiếng Việt, ngắn gọn. Không tiết lộ thông tin về model hay nhà phát triển."),
             HumanMessage(content=clean_message),
         ]
-        result = await llm.ainvoke(messages)
+        result        = await llm.ainvoke(messages)
         response_text = result.content
 
     else:
         history = await load_history(clean_session_id)
 
-        response_text = await run_agent(
+        # run_agent giờ trả tuple (response, token_report)
+        response_text, token_report = await run_agent(
             message=clean_message,
             session_id=clean_session_id,
             raw_history=history,
         )
 
+        # Append token display vào cuối response
+        response_text += format_token_display(token_report)
+
     # ── Save history ───────────────────────────────
     if pipeline != Pipeline.SIMPLE:
         await save_message(
-            clean_session_id,
-            "user",
-            clean_message,
-            count_tokens(clean_message),
+            clean_session_id, "user",
+            clean_message, count_tokens(clean_message),
         )
-
         await save_message(
-            clean_session_id,
-            "assistant",
-            response_text,
-            count_tokens(response_text),
+            clean_session_id, "assistant",
+            response_text, count_tokens(response_text),
         )
 
     logger.info(f"[{clean_session_id}] Response: {response_text[:80]}")
