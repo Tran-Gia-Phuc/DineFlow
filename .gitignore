@@ -6,3 +6,4 @@ etc/filestore/
 __pycache__/
 *.pyc
 backup/*.sql
+ai_service/.env
