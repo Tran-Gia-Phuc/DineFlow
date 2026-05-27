@@ -27,7 +27,7 @@ def _to_str(data) -> str:
 # ── Tools ─────────────────────────────────────────────────────
 
 @tool
-async def get_bookings(query: str = "")G: -> str:
+async def get_bookings(query: str = "") -> str:
     """
     Lấy danh sách đặt bàn trong nhà hàng.
     Dùng khi hỏi về lịch đặt bàn, đặt bàn hôm nay, ca nào còn trống,

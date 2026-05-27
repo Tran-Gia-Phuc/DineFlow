@@ -24,7 +24,7 @@ def _to_str(data) -> str:
 # ── Tools ─────────────────────────────────────────────────────
 
 @tool
-async def get_revenue(query: str = "")G: -> str:
+async def get_revenue(query: str = "") -> str:
     """
     Lấy thông tin doanh thu của nhà hàng.
     Dùng khi hỏi về doanh thu,oanh số, thu nhập, tổng tiền bán được,

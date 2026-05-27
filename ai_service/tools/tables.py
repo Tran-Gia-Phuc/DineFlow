@@ -27,7 +27,7 @@ def _to_str(data) -> str:
 # ── Tools ─────────────────────────────────────────────────────
 
 @tool
-async def get_tables(query: str = "")G: -> str:
+async def get_tables(query: str = "") -> str:
     """
     Lấy danh sách bàn trong nhà hàng và trạng thái của từng bàn.
     Dùng khi hỏi bàn nào còn trống, bàn nào đang có khách,
@@ -86,7 +86,7 @@ async def get_tables(query: str = "")G: -> str:
 
 
 @tool
-async def update_table_status(query: str = "")G: -> str:
+async def update_table_status(query: str = "") -> str:
     """
     Cập nhật trạng thái của một bàn.
     Dùng khi cần đổi bàn từ trống sang có khách, hoặc dọn bàn xong muốn

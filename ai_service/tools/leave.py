@@ -27,7 +27,7 @@ def _to_str(data) -> str:
 # ── Tools ─────────────────────────────────────────────────────
 
 @tool
-async def get_leave_requests(query: str = "")G: -> str:
+async def get_leave_requests(query: str = "") -> str:
     """
     Lấy danh sách đơn xin nghỉ phép của nhân viên.
     Dùng khi hỏi về đơn nghỉ phép, ai đang chờ duyệt nghỉ,
