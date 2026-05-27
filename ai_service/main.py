@@ -1,5 +1,6 @@
 import asyncio
 import uuid
+import json
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,6 +30,8 @@ from validator.sanitizer import sanitize_message, sanitize_session_id
 from validator.schema import ChatRequestSchema
 
 from agent.token_counter import format_token_display
+from streaming.sse_manager import sse_manager
+from sse_starlette.sse import EventSourceResponse
 
 
 # ── Logger ────────────────────────────────────────────────────
@@ -150,6 +153,7 @@ async def health_check():
         "gemini": settings.has_gemini,
     }
 
+
 @app.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(
     body: ChatRequest,
@@ -190,14 +194,12 @@ async def chat_endpoint(
     else:
         history = await load_history(clean_session_id)
 
-        # run_agent giờ trả tuple (response, token_report)
         response_text, token_report = await run_agent(
             message=clean_message,
             session_id=clean_session_id,
             raw_history=history,
         )
 
-        # Append token display vào cuối response
         response_text += format_token_display(token_report)
 
     # ── Save history ───────────────────────────────
@@ -219,19 +221,29 @@ async def chat_endpoint(
         session_id=clean_session_id,
     )
 
+
+# ── Bước 6: POST /chat/async — tạo SSE queue trước khi enqueue ──
 @app.post("/chat/async")
 async def chat_async(
     body: ChatRequest,
     api_key: str = Depends(verify_api_key),
 ):
+    clean_session_id = sanitize_session_id(body.session_id)
     job_id = str(uuid.uuid4())
-    await create_job(job_id=job_id, session_id=body.session_id, message=body.message)
+
+    # Tạo SSE queue TRƯỚC khi enqueue
+    # → tránh race condition worker emit trước khi client connect
+    sse_manager.create_queue(clean_session_id)
+
+    await create_job(job_id=job_id, session_id=clean_session_id, message=body.message)
     await enqueue_job(job_id)
+
     return {
-        "success": True,
-        "job_id":  job_id,
-        "status":  JobStatus.PENDING,
-        "message": "Đang xử lý, poll /chat/async/{job_id} để lấy kết quả",
+        "success":    True,
+        "job_id":     job_id,
+        "session_id": clean_session_id,
+        "status":     JobStatus.PENDING,
+        "message":    "Đang xử lý, mở SSE tại /chat/stream/{session_id}",
     }
 
 
@@ -253,6 +265,18 @@ async def get_job_result(
         "result":  job.get("result"),
         "error":   job.get("error"),
     }
+
+
+@app.get("/chat/stream/{session_id}")
+async def chat_stream(
+    session_id: str,
+    api_key: str = Depends(verify_api_key),
+):
+    async def event_generator():
+        async for event in sse_manager.stream(session_id):
+            yield {"data": json.dumps(event, ensure_ascii=False)}
+
+    return EventSourceResponse(event_generator())
 
 
 @app.get("/chat/{session_id}/usage")

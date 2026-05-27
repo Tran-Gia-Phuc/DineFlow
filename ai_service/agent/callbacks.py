@@ -177,7 +177,9 @@ class StreamingCallbackHandler(BaseCallbackHandler):
     # ── Chain callbacks ───────────────────────────────────────
 
     def on_chain_start(self, serialized, inputs, **kwargs) -> None:
-        self._emit("status", "🔍 Đang phân tích câu hỏi...")
+        if not hasattr(self, '_chain_started'):
+            self._chain_started = True
+            self._emit("status", "🔍 Đang phân tích câu hỏi...")
 
     def on_chain_error(self, error: Exception, **kwargs) -> None:
         self._emit("error", f"❌ Lỗi: {str(error)[:100]}")

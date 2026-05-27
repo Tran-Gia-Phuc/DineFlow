@@ -62,3 +62,5 @@ Xác nhận hành động thành công:
 Thông báo lỗi:
 → Rõ nguyên nhân + gợi ý cách xử lý
 → Ví dụ: "❌ Bàn số 5 đã được đặt trong ca này. Bạn có muốn thử bàn khác không?"
+
+sse-starlette==1.8.2

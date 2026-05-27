@@ -63,10 +63,18 @@ class SSEManager:
 
     async def stream(self, session_id: str) -> AsyncGenerator[dict, None]:
         """Yield từng event cho EventSourceResponse. Tự dọn queue sau done/error."""
-        q = self._queues.get(session_id)
-        if q is None:
-            yield {"type": "error", "message": "Session không tồn tại"}
-            return
+
+        # Chờ queue được tạo (POST /chat/async có thể đến sau GET /chat/stream)
+        WAIT_TIMEOUT = 30  # chờ tối đa 30 giây
+        waited = 0
+        while session_id not in self._queues:
+            await asyncio.sleep(0.2)
+            waited += 0.2
+            if waited >= WAIT_TIMEOUT:
+                yield {"type": "error", "message": "Session không tồn tại hoặc timeout"}
+                return
+
+        q = self._queues[session_id]
 
         TIMEOUT = 300  # 5 phút
         try:
@@ -84,7 +92,6 @@ class SSEManager:
                     break
         finally:
             self.remove_queue(session_id)
-
 
 # Singleton — import ở khắp nơi
 sse_manager = SSEManager()
