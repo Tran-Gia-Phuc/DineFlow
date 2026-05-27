@@ -27,7 +27,7 @@ def _to_str(data) -> str:
 # ── Tools ─────────────────────────────────────────────────────
 
 @tool
-async def get_leave_requests(query: str) -> str:
+async def get_leave_requests(query: str = "")G: -> str:
     """
     Lấy danh sách đơn xin nghỉ phép của nhân viên.
     Dùng khi hỏi về đơn nghỉ phép, ai đang chờ duyệt nghỉ,
@@ -146,8 +146,12 @@ async def approve_leave_request(query: str) -> str:
     Dùng khi quản lý muốn phê duyệt hoặc từ chối đơn nghỉ của nhân viên.
 
     Tham số query phải chứa JSON string:
-    {"leave_id": số_id, "action": "approve|refuse",
-     "reason": "lý do từ chối (chỉ cần khi refuse)"}
+    {
+        "leave_id": số_id,
+        "action": "approve|refuse",
+        "manager_id": số_id_quản_lý (khi approve),
+        "reason": "lý do từ chối (khi refuse)"
+    }
     """
     logger.info(f"[tool:approve_leave_request] query={query!r}")
 
@@ -161,15 +165,34 @@ async def approve_leave_request(query: str) -> str:
 
     if not leave_id:
         return "Thiếu leave_id."
+
     if action not in ("approve", "refuse"):
         return "action phải là 'approve' hoặc 'refuse'."
+
+    # ── Build request body ─────────────────────────────
+    if action == "approve":
+        manager_id = payload.get("manager_id")
+
+        if not manager_id:
+            return "Thiếu manager_id khi approve."
+
+        body = {
+            "manager_id": manager_id
+        }
+
+    else:  # refuse
+        reason = payload.get("reason", "")
+
+        body = {}
+        if reason:
+            body["reason"] = reason
 
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
             resp = await client.post(
                 f"{settings.odoo_base_url}/dineflow/api/leave/{leave_id}/{action}",
                 headers=ODOO_HEADERS,
-                json={"reason": payload.get("reason", "")},
+                json=body,
             )
 
             if resp.status_code == 404:
@@ -179,10 +202,13 @@ async def approve_leave_request(query: str) -> str:
 
     except httpx.TimeoutException:
         return "Lỗi: Odoo không phản hồi (timeout)."
+
     except httpx.HTTPStatusError as e:
         return f"Lỗi: Odoo trả về status {e.response.status_code}."
+
     except Exception as e:
         return f"Lỗi không xác định: {e}"
 
     action_text = "Đã duyệt" if action == "approve" else "Đã từ chối"
+
     return f"{action_text} đơn nghỉ phép #{leave_id} thành công."

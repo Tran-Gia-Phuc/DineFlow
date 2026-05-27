@@ -24,7 +24,7 @@ def _to_str(data) -> str:
 # ── Tools ─────────────────────────────────────────────────────
 
 @tool
-async def get_revenue(query: str) -> str:
+async def get_revenue(query: str = "")G: -> str:
     """
     Lấy thông tin doanh thu của nhà hàng.
     Dùng khi hỏi về doanh thu,oanh số, thu nhập, tổng tiền bán được,
@@ -93,7 +93,7 @@ async def get_revenue(query: str) -> str:
         return f"Lỗi không xác định: {e}"
 
     # Revenue API trả summary trong data hoặc data.summary
-    revenue_data = data.get("data") or data.get("summary") or {}
+    revenue_data = data.get("summary") or data.get("data") or {}
     if not revenue_data:
         return "Không có dữ liệu doanh thu cho khoảng thời gian này."
 

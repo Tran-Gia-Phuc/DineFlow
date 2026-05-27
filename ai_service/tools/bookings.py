@@ -27,7 +27,7 @@ def _to_str(data) -> str:
 # ── Tools ─────────────────────────────────────────────────────
 
 @tool
-async def get_bookings(query: str) -> str:
+async def get_bookings(query: str = "")G: -> str:
     """
     Lấy danh sách đặt bàn trong nhà hàng.
     Dùng khi hỏi về lịch đặt bàn, đặt bàn hôm nay, ca nào còn trống,
@@ -91,14 +91,14 @@ async def get_bookings(query: str) -> str:
 async def create_booking(query: str) -> str:
     """
     Tạo đặt bàn mới cho khách.
-    Dùng khi khách muốn đặt bàn, yêu cầu giữ bàn, hoặc book bàn cho buổi ăn.
+    Dùng khi khách muốn đặt bàn, yêu cầu giữ bàn.
 
-    Tham số query phải chứa đủ thông tin theo định dạng JSON string:
-    {"customer_name": "...", "phone": "...", "date": "YYYY-MM-DD",
-     "shift": "morning|afternoon|evening", "guests": số_người,
-     "table_id": số_id_bàn}
+    Tham số query phải chứa JSON string:
+    {"customer_name": "...", "phone": "...", "table_id": số_id,
+     "date_start": "YYYY-MM-DD HH:MM:SS", "date_end": "YYYY-MM-DD HH:MM:SS",
+     "guest_count": số_người, "note": "ghi chú"}
 
-    Nếu thiếu thông tin, hãy hỏi lại người dùng trước khi gọi tool này.
+    Nếu thiếu thông tin, hỏi lại người dùng trước khi gọi tool này.
     """
     logger.info(f"[tool:create_booking] query={query!r}")
 
@@ -109,7 +109,7 @@ async def create_booking(query: str) -> str:
         return "Lỗi: Dữ liệu đặt bàn không đúng định dạng JSON. Vui lòng thử lại."
 
     # Kiểm tra field bắt buộc
-    required = ["customer_name", "date", "shift", "guests"]
+    required = ["customer_name", "phone", "table_id", "date_start", "date_end"]
     missing = [f for f in required if not payload.get(f)]
     if missing:
         return f"Thiếu thông tin bắt buộc: {', '.join(missing)}. Vui lòng cung cấp thêm."
@@ -138,9 +138,8 @@ async def create_booking(query: str) -> str:
         return f"Lỗi không xác định: {e}"
 
     booking = data.get("data", {})
-    return f"Đặt bàn thành công! Mã đặt bàn: #{booking.get('id')}. " \
-           f"Khách: {booking.get('customer_name')}, " \
-           f"Ngày: {booking.get('date')}, Ca: {booking.get('shift')}."
+    return f"Đặt bàn thành công! Mã: #{booking.get('booking_id')}. " \
+        f"Tên đặt bàn: {booking.get('name')}."
 
 
 @tool

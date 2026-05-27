@@ -38,7 +38,7 @@ def _to_str(data) -> str:
 # ── Tools ─────────────────────────────────────────────────────
 
 @tool
-async def get_employees(query: str) -> str:
+async def get_employees(query: str = "")G: -> str:
     """
     Lấy danh sách nhân viên trong nhà hàng.
     Dùng khi người dùng hỏi về nhân viên, ca làm việc, số lượng nhân sự,
@@ -92,7 +92,7 @@ async def get_employees(query: str) -> str:
 
 
 @tool
-async def get_employees_on_leave_today(query: str) -> str:
+async def get_employees_on_leave_today(query: str = "")G: -> str:
     """
     Lấy danh sách nhân viên đang nghỉ phép hôm nay.
     Dùng khi hỏi ai đang nghỉ, hôm nay thiếu người không,
