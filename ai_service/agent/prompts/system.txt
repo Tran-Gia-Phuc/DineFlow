@@ -64,3 +64,4 @@ Thông báo lỗi:
 → Ví dụ: "❌ Bàn số 5 đã được đặt trong ca này. Bạn có muốn thử bàn khác không?"
 
 sse-starlette==1.8.2
+httpx>=0.27.0

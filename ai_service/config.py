@@ -24,6 +24,7 @@ class Settings(BaseSettings):
     # ── Odoo ──────────────────────────────────────────────────
     odoo_base_url: str = "http://odoo:8069"   # tên service trong docker-compose
     odoo_api_key: str = "dineflow-secret-2024"
+    odoo_internal_key: str = "dineflow-internal-secret"   # ← thêm dòng này
 
     # ── Groq ──────────────────────────────────────────────────
     # Nhiều key để rotate khi hit rate limit

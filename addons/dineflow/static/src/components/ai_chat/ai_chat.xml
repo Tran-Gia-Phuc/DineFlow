@@ -13,17 +13,37 @@
                             <t t-if="msg.from === 'bot'">🤖</t>
                             <t t-else="">👤</t>
                         </div>
-                        <div class="dineflow-msg-bubble">
-                            <t t-esc="msg.text"/>
+                        <div class="dineflow-msg-content">
+                            <div class="dineflow-msg-bubble">
+                                <t t-esc="msg.text"/>
+                            </div>
+                            <!-- Option B: token summary bên dưới response bot -->
+                            <t t-if="msg.from === 'bot' and msg.tokenText">
+                                <div class="dineflow-token-report">
+                                    <t t-esc="msg.tokenText"/>
+                                </div>
+                            </t>
                         </div>
                     </div>
                 </t>
 
+                <!-- Step indicator khi đang loading -->
                 <t t-if="state.loading">
                     <div class="dineflow-msg dineflow-msg-bot">
                         <div class="dineflow-avatar">🤖</div>
-                        <div class="dineflow-msg-bubble dineflow-typing">
-                            <span/><span/><span/>
+                        <div class="dineflow-msg-bubble dineflow-steps">
+                            <t t-if="state.currentStep">
+                                <!-- Option A: step text + token từ tool_end -->
+                                <span class="dineflow-step-text">
+                                    <t t-esc="state.currentStep"/>
+                                </span>
+                                <span class="dineflow-step-dots"><span/><span/><span/></span>
+                            </t>
+                            <t t-else="">
+                                <div class="dineflow-typing">
+                                    <span/><span/><span/>
+                                </div>
+                            </t>
                         </div>
                     </div>
                 </t>

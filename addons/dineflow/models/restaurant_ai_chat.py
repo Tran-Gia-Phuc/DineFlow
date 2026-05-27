@@ -7,6 +7,7 @@ class RestaurantAIChat(models.Model):
 
     employee_id = fields.Many2one('hr.employee', string='Nhân viên')
     session_id = fields.Char(string='Session ID')
+    job_id      = fields.Char(string='Job ID')          
     message = fields.Text(string='Tin nhắn người dùng')
     response = fields.Text(string='Phản hồi AI')
     created_at = fields.Datetime(string='Thời gian', default=fields.Datetime.now)
