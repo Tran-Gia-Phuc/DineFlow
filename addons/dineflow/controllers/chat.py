@@ -12,11 +12,7 @@ AI_SERVICE_KEY = 'dineflow-ai-secret-2024'
 
 
 class DineFlowChat(http.Controller):
-
-    # ══════════════════════════════════════════════════════════
-    # HELPERS
-    # ══════════════════════════════════════════════════════════
-
+    
     def _sanitize_response(self, text: str) -> str:
         """Xóa artifact tool call còn sót trong response LLM."""
         if not text:
@@ -64,10 +60,6 @@ class DineFlowChat(http.Controller):
         )
         return resp.status_code, resp.text
 
-    # ══════════════════════════════════════════════════════════
-    # CHAT
-    # ══════════════════════════════════════════════════════════
-
     @http.route('/dineflow/chat', type='json', auth='user', methods=['POST'], csrf=False)
     def chat(self, **kwargs):
         message = kwargs.get('message', '').strip()
@@ -93,8 +85,6 @@ class DineFlowChat(http.Controller):
         try:
             status_code, raw_response = self._call_ai_service(session_id, message)
 
-            # Parse JSON response từ ai_service
-            # Format: {"success": true, "response": "...", "session_id": "..."}
             try:
                 data        = json.loads(raw_response)
                 ai_response = data.get('response', '')
@@ -133,10 +123,6 @@ class DineFlowChat(http.Controller):
             'employee_name': employee_name,
             'role':          role,
         }
-
-    # ══════════════════════════════════════════════════════════
-    # HISTORY
-    # ══════════════════════════════════════════════════════════
 
     @http.route('/dineflow/chat/history', type='json', auth='user', methods=['POST'], csrf=False)
     def chat_history(self, **kwargs):

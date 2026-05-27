@@ -208,7 +208,6 @@ class DineFlowAPI(http.Controller):
                 agg[eid]['count']      += 1
             summary = {'by_employee': sorted(agg.values(), key=lambda x: x['total_days'], reverse=True)}
 
-        # MỚI: summary_only — không trả records, chỉ trả summary
         if summary_only == 'true' and summary:
             return self._ok([], summary=summary)
 
@@ -831,7 +830,6 @@ class DineFlowAPI(http.Controller):
                     'trend_pct': round((s_avg - f_avg) / f_avg * 100, 1) if f_avg else 0,
                 }
 
-        # MỚI: summary_only — bỏ qua records array, chỉ trả summary
         if summary_only == 'true' and summary:
             return self._ok([], summary=summary)
 
