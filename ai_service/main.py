@@ -10,6 +10,9 @@ import logging
 from config import settings
 from middleware.auth import verify_api_key
 
+from pipeline.selector import select_pipeline, get_simple_response, Pipeline
+from llm.fallback import get_llm_with_fallback
+
 # ── Logger ────────────────────────────────────────────────────
 logging.basicConfig(
     level=logging.DEBUG if settings.debug else logging.INFO,
@@ -275,25 +278,41 @@ async def lifespan(app: FastAPI):
 
 
 # Sửa /chat/async — dùng enqueue thay vì BackgroundTasks
-@app.post("/chat/async")
-async def chat_async(
+@app.post("/chat", response_model=ChatResponse)
+async def chat_endpoint(
     body: ChatRequest,
     api_key: str = Depends(verify_api_key),
 ):
-    job_id = str(uuid.uuid4())
+    pipeline = select_pipeline(body.message)
 
-    await create_job(
-        job_id=job_id,
+    # SIMPLE: trả lời ngay, không tốn token
+    if pipeline == Pipeline.SIMPLE:
+        response_text = get_simple_response(body.message)
+
+    # CHITCHAT: LLM trả lời tự do, không gọi tool
+    elif pipeline == Pipeline.CHITCHAT:
+        llm = get_llm_with_fallback()
+        result = await llm.ainvoke(body.message)
+        response_text = result.content
+
+    # TOOL: agent đầy đủ
+    else:
+        history = await load_history(body.session_id)
+        response_text = await run_agent(
+            message=body.message,
+            session_id=body.session_id,
+            raw_history=history,
+        )
+
+    # Lưu DB (trừ SIMPLE vì quá ngắn, không cần lưu)
+    if pipeline != Pipeline.SIMPLE:
+        await save_message(body.session_id, "user",
+                           body.message, count_tokens(body.message))
+        await save_message(body.session_id, "assistant",
+                           response_text, count_tokens(response_text))
+
+    return ChatResponse(
+        success=True,
+        response=response_text,
         session_id=body.session_id,
-        message=body.message,
     )
-
-    # Đẩy vào Redis queue thay vì BackgroundTasks
-    await enqueue_job(job_id)
-
-    return {
-        "success": True,
-        "job_id":  job_id,
-        "status":  JobStatus.PENDING,
-        "message": "Đang xử lý, poll /chat/async/{job_id} để lấy kết quả",
-    }
