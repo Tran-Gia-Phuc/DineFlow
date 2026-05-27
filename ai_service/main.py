@@ -25,6 +25,9 @@ from job_queue.worker import run_worker, enqueue_job
 from agent.executor import run_agent
 from agent.memory import count_tokens
 
+from validator.sanitizer import sanitize_message, sanitize_session_id
+from validator.schema import ChatRequestSchema
+
 # ── Logger ────────────────────────────────────────────────────
 logging.basicConfig(
     level=logging.DEBUG if settings.debug else logging.INFO,
@@ -144,45 +147,62 @@ async def health_check():
         "gemini": settings.has_gemini,
     }
 
-
 @app.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(
     body: ChatRequest,
     api_key: str = Depends(verify_api_key),
 ):
-    logger.info(f"[{body.session_id}] User: {body.message[:80]}")
+    # ── Sanitize input ─────────────────────────────
+    clean_message, warnings = sanitize_message(body.message)
+    clean_session_id = sanitize_session_id(body.session_id)
 
-    pipeline = select_pipeline(body.message)
+    if warnings:
+        logger.warning(f"Input warnings: {warnings}")
+
+    logger.info(f"[{clean_session_id}] User: {clean_message[:80]}")
+
+    pipeline = select_pipeline(clean_message)
 
     if pipeline == Pipeline.SIMPLE:
-        response_text = get_simple_response(body.message)
+        response_text = get_simple_response(clean_message)
 
     elif pipeline == Pipeline.CHITCHAT:
         llm = get_llm_with_fallback()
-        result = await llm.ainvoke(body.message)
+        result = await llm.ainvoke(clean_message)
         response_text = result.content
 
     else:
-        history = await load_history(body.session_id)
+        history = await load_history(clean_session_id)
+
         response_text = await run_agent(
-            message=body.message,
-            session_id=body.session_id,
+            message=clean_message,
+            session_id=clean_session_id,
             raw_history=history,
         )
 
+    # ── Save history ───────────────────────────────
     if pipeline != Pipeline.SIMPLE:
-        await save_message(body.session_id, "user",
-                           body.message, count_tokens(body.message))
-        await save_message(body.session_id, "assistant",
-                           response_text, count_tokens(response_text))
+        await save_message(
+            clean_session_id,
+            "user",
+            clean_message,
+            count_tokens(clean_message),
+        )
 
-    logger.info(f"[{body.session_id}] Response: {response_text[:80]}")
+        await save_message(
+            clean_session_id,
+            "assistant",
+            response_text,
+            count_tokens(response_text),
+        )
+
+    logger.info(f"[{clean_session_id}] Response: {response_text[:80]}")
+
     return ChatResponse(
         success=True,
         response=response_text,
-        session_id=body.session_id,
+        session_id=clean_session_id,
     )
-
 
 @app.post("/chat/async")
 async def chat_async(
