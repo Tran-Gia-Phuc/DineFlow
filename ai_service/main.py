@@ -247,3 +247,53 @@ async def get_job_result(
         "result":   job.get("result"),
         "error":    job.get("error"),
     }
+    
+    import asyncio
+from job_queue.worker import run_worker, enqueue_job
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # STARTUP
+    ...
+    await init_db()
+    await get_redis()
+
+    # Khởi động worker trong background
+    worker_task = asyncio.create_task(run_worker(concurrency=3))
+    logger.info("Worker started")
+
+    yield
+
+    # SHUTDOWN — cancel worker gracefully
+    worker_task.cancel()
+    try:
+        await worker_task
+    except asyncio.CancelledError:
+        pass
+    await close_redis()
+    logger.info("Shutting down AI Service...")
+
+
+# Sửa /chat/async — dùng enqueue thay vì BackgroundTasks
+@app.post("/chat/async")
+async def chat_async(
+    body: ChatRequest,
+    api_key: str = Depends(verify_api_key),
+):
+    job_id = str(uuid.uuid4())
+
+    await create_job(
+        job_id=job_id,
+        session_id=body.session_id,
+        message=body.message,
+    )
+
+    # Đẩy vào Redis queue thay vì BackgroundTasks
+    await enqueue_job(job_id)
+
+    return {
+        "success": True,
+        "job_id":  job_id,
+        "status":  JobStatus.PENDING,
+        "message": "Đang xử lý, poll /chat/async/{job_id} để lấy kết quả",
+    }
