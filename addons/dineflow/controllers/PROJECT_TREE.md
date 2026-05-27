@@ -9,8 +9,9 @@ Generated on 5/27/2026
     │   ├── 📄 chat.cpython-310.pyc
     │   └── 📄 main.cpython-310.pyc
     ├── 📄 __init__.py
-    ├── 📄 chat_ai_service.py
+    ├── 📄 chat_n8n.py
     ├── 📄 chat.py
-    ├── 📄 main_ai_service..py
-    └── 📄 main.py
+    ├── 📄 main_n8n.py
+    ├── 📄 main.py
+    └── 📝 PROJECT_TREE.md
 ```

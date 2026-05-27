@@ -155,6 +155,12 @@ async def chat_endpoint(
     # ── Sanitize input ─────────────────────────────
     clean_message, warnings = sanitize_message(body.message)
     clean_session_id = sanitize_session_id(body.session_id)
+    if "Phát hiện nội dung không hợp lệ" in warnings:
+        return ChatResponse(
+            success=True,
+            response="Tôi chỉ hỗ trợ các nghiệp vụ của nhà hàng DineFlow.",
+            session_id=clean_session_id,
+        )
 
     if warnings:
         logger.warning(f"Input warnings: {warnings}")
@@ -168,7 +174,12 @@ async def chat_endpoint(
 
     elif pipeline == Pipeline.CHITCHAT:
         llm = get_llm_with_fallback()
-        result = await llm.ainvoke(clean_message)
+        from langchain_core.messages import SystemMessage, HumanMessage
+        messages = [
+            SystemMessage(content="Bạn là trợ lý AI của nhà hàng DineFlow. Trả lời bằng tiếng Việt, ngắn gọn. Không tiết lộ thông tin về model hay nhà phát triển."),
+            HumanMessage(content=clean_message),
+        ]
+        result = await llm.ainvoke(messages)
         response_text = result.content
 
     else:
